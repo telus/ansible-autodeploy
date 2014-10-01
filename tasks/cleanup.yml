@@ -5,6 +5,7 @@
     path: "{{ item }}"
   with_items:
     - /data/deployment/webhook-listener.js
+    - /data/deployment/webhooks/deploy
     - /data/run/webhooks
     - /etc/monit/conf.d/webhook-listener
     - /etc/nginx/sites-available/webhooks.conf
