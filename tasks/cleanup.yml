@@ -1,0 +1,11 @@
+---
+- name: General Housekeeping
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - /data/deployment/webhook-listener.js
+    - /data/run/webhooks
+    - /etc/monit/conf.d/webhook-listener
+    - /etc/nginx/sites-available/webhooks.conf
+    - /etc/nginx/sites-enabled/webhooks

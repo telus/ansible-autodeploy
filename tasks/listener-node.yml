@@ -1,0 +1,44 @@
+---
+- name: "Directory Exists | {{ autodeploy_runtime_root }}"
+  file:
+    state: directory
+    path: "{{ autodeploy_runtime_root }}"
+    owner: "{{ autodeploy_user }}"
+    group: wcadmin
+    mode: 0775
+  tags:
+    - directory-structure
+    - runtime-data
+    - mariadb
+
+- name: Setup WebHook Deployment | Listener
+  template:
+    src: "{{ item }}"
+    dest: "/{{ item }}"
+    owner: www-data
+    group: wcadmin
+    mode: 0460
+  with_items:
+    - data/deployment/listener.js
+    - data/deployment/package.json
+  when: autodeploy_listener == 'node'
+  tags:
+    - security-concern
+    - deployment
+    - webhooks
+
+- name: Update Dependencies | npm
+  npm:
+    state: latest
+    path: /data/deployment
+
+- name: Upload Config | monit | webhook-listener
+  template:
+    src: etc/monit/conf.d/autodeploy
+    dest: /etc/monit/conf.d/autodeploy
+  notify: Reload Service | monit
+  tags:
+    - monit
+
+- name: Trigger All Callbacks
+  meta: flush_handlers

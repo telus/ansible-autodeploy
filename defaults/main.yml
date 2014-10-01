@@ -1,0 +1,33 @@
+---
+autodeploy_runtime_root: "{{ runtime_root }}/autodeploy"
+autodeploy_pidfile_path: "{{ autodeploy_runtime_root }}/listener.pid"
+
+autodeploy_repository_branch: "{{ environment_tier }}"
+autodeploy_docroot: /data/www/docroot
+autodeploy_key: /data/deployment/deploy.key
+autodeploy_user: www-data
+autodeploy_group: www-data
+
+autodeploy_listener_docroot: /data/deployment/listener
+
+autodeploy_using_standard_playbook: yes
+
+autodeploy_database_bundled: no
+autodeploy_database_file: import.sql
+autodeploy_database_compressed: no
+autodeploy_for_wordpress: no
+autodeploy_rewrite_enabled: no
+autodeploy_rewrite_replace: "application.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+autodeploy_rewrite_files:
+  - "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+
+autodeploy_external_asset_storage_enabled: no
+autodeploy_external_asset_storage_source: /data/www/assets
+autodeploy_external_asset_storage_destination: /data/www/docroot/wp-content/uploads
+
+autodeploy_listener: php
+
+autodeploy_for_node: no
+autodeploy_restart_enabled: no
+
+autodeploy_database_engine: mysql-compatible

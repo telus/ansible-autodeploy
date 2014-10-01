@@ -1,0 +1,18 @@
+{
+    "name": "autodeploy-listener",
+    "description": "Simple Listener to kick off deployment tasks.",
+    "keywords": [
+        "deployment",
+        "webhooks"
+    ],
+    "version": "0.0.0",
+    "license": "MIT",
+    "author": {
+        "name": "Chris Olstrom",
+        "email": "chris@olstrom.com",
+        "url": "http://chris.olstrom.com/"
+    },
+    "dependencies": {
+        "npid": ">=0.4.0"
+    }
+}

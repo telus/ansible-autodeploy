@@ -1,0 +1,127 @@
+---
+- connection: local
+  hosts: localhost
+  gather_facts: False
+  sudo_user: www-data
+
+  tasks:
+{% if autodeploy_external_asset_storage_enabled %}
+    - name: External Asset Storage | Disconnect from Deployment Path
+      file:
+        state: absent
+        path: "{{ autodeploy_external_asset_storage_destination }}"
+
+{% endif %}
+    - name: Fetch Application Code from git
+      git:
+        repo: "{{ autodeploy_repository_origin }}"
+        accept_hostkey: yes
+        dest: "{{ autodeploy_docroot }}"
+        key_file: "{{ autodeploy_key }}"
+        update: yes
+        force: yes
+        version: "{{ autodeploy_repository_branch }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% if autodeploy_external_asset_storage_enabled %}
+
+    - name: External Asset Storage | Connect to Deployment Path
+      file:
+        state: link
+        src: "{{ autodeploy_external_asset_storage_source }}"
+        dest: "{{ autodeploy_external_asset_storage_destination }}"
+{% endif %}
+{% if autodeploy_database_bundled and environment_tier not in ['production'] %}
+{% if autodeploy_database_compressed %}
+
+    - name: Database | Unpack
+      unarchive:
+        src: "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}.zip"
+        dest: "{{ autodeploy_docroot }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% endif %}
+{% if autodeploy_rewrite_enabled %}
+{% for file in autodeploy_rewrite_files %}
+
+    - name: "Rewrite Deployed Code in {{ file }}"
+      replace:
+        dest: "{{ file }}"
+        regexp: "{{ autodeploy_rewrite_match | mandatory }}"
+        replace: "{{ autodeploy_rewrite_replace }}"
+
+{% endfor %}
+{% endif %}
+
+    - name: Database | Drop
+      mysql_db:
+        state: absent
+        login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        login_password: "{{ database.password }}"
+        login_user: "{{ database.username | default(project) }}"
+        name: "{{ database.name | default(project) }}"
+      ignore_errors: True
+
+    - name: Database | Create
+      mysql_db:
+        state: present
+        login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        login_password: "{{ database.password }}"
+        login_user: "{{ database.username | default(project) }}"
+        name: "{{ database.name | default(project) }}"
+
+    - name: Database | Import
+      mysql_db:
+        state: import
+        login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        login_password: "{{ database.password }}"
+        login_user: "{{ database.username | default(project) }}"
+        name: "{{ database.name | default(project) }}"
+        target: "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% endif %}
+{% if autodeploy_for_wordpress %}
+
+    - name: Configure Application | database | name
+      lineinfile:
+        state: present
+        dest: "{{ autodeploy_docroot }}/wp-config.php"
+        regexp: 'DB_NAME'
+        line: "define('DB_NAME', '{{ database.name | default(project) }}');"
+
+    - name: Configure Application | database | username
+      lineinfile:
+        state: present
+        dest: "{{ autodeploy_docroot }}/wp-config.php"
+        regexp: 'DB_USER'
+        line: "define('DB_USER', '{{ database.username | default(project) }}');"
+
+    - name: Configure Application | database | password
+      lineinfile:
+        state: present
+        dest: "{{ autodeploy_docroot }}/wp-config.php"
+        regexp: 'DB_PASSWORD'
+        line: "define('DB_PASSWORD', '{{ database.password | mandatory }}');"
+
+    - name: Configure Application | database | server
+      lineinfile:
+        state: present
+        dest: "{{ autodeploy_docroot }}/wp-config.php"
+        regexp: 'DB_HOST'
+        line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
+{% endif %}
+{% if autodeploy_for_node %}
+
+    - name: Update Dependencies | npm
+      npm:
+        state: latest
+        path: "{{ autodeploy_docroot }}"
+{% endif %}
+{% if autodeploy_restart_enabled %}
+
+    - name: Restart Application
+      monit:
+        state: restarted
+        name: "{{ autodeploy_restart_target | mandatory }}"
+{% endif %}

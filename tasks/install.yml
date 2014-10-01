@@ -1,0 +1,31 @@
+---
+- name: Install Packages | apt
+  apt:
+    state: latest
+    pkg: "{{ item }}"
+  with_items:
+    - "{% if autodeploy_database_engine == 'postgres' %}psycopg2{% else %}python-mysqldb{% endif %}"
+  when: autodeploy_database_bundled
+  tags:
+    - software-installation
+    - using-apt
+
+- name: Install Packages | apt
+  apt:
+    state: latest
+    pkg: "{{ item }}"
+  with_items:
+    - unzip
+  when: autodeploy_database_compressed
+  tags:
+    - software-installation
+    - using-apt
+
+- name: Install Packages | npm
+  npm:
+    state: latest
+    name: "{{ item }}"
+    global: yes
+  with_items:
+    - forever
+  when: autodeploy_listener == 'node'

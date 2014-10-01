@@ -1,0 +1,51 @@
+---
+- name: Setup WebHook Deployment | Directory
+  file:
+    state: directory
+    path: "{{ autodeploy_listener_docroot }}/deploy"
+    owner: www-data
+    group: wcadmin
+    mode: 0750
+  tags:
+    - directory-structure
+    - deployment
+    - webhooks
+
+- name: Upload Config | nginx | WebHook Deployment
+  template:
+    src: etc/nginx/sites-available/deployment.conf
+    dest: /etc/nginx/sites-available/deployment.conf
+    owner: root
+    group: wcadmin
+    mode: 0664
+  notify: Reload Service | nginx
+  tags:
+    - configuration
+    - template-configuration
+    - nginx
+    - webhooks
+
+- name: Enable Config | nginx | WebHook Deployment
+  file:
+    state: link
+    src: /etc/nginx/sites-available/deployment.conf
+    dest: /etc/nginx/sites-enabled/deployment
+  notify: Reload Service | nginx
+  tags:
+    - configuration
+    - enable-configuration
+    - nginx
+    - webhooks
+
+- name: Setup WebHook Deployment | Listener
+  template:
+    src: data/deployment/listener/index.php
+    dest: "{{ autodeploy_listener_docroot }}/index.php"
+    owner: root
+    group: www-data
+    mode: 0440
+  when: autodeploy_using_standard_playbook
+  tags:
+    - security-concern
+    - deployment
+    - webhooks

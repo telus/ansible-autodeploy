@@ -1,0 +1,27 @@
+---
+- name: Directories Exists | Deployment
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: www-data
+    group: wcadmin
+    mode: 0750
+  tags:
+    - directory-structure
+    - security-concern
+    - deployment
+  with_items:
+    - /var/www/.ssh
+    - /data/deployment
+
+- name: Setup WebHook Deployment | Playbook
+  template:
+    src: data/deployment/deploy.yml
+    dest: /data/deployment/deploy.yml
+    owner: root
+    group: wcadmin
+    mode: 0444
+  when: autodeploy_using_standard_playbook
+  tags:
+    - deployment
+    - using-ansible

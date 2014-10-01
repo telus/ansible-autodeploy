@@ -1,0 +1,10 @@
+---
+dependencies:
+  - role: package/ansible
+  - role: package/mariadb
+    mariadb_client: yes
+    when: autodeploy_database_bundled
+  - role: package/nodejs
+    when: autodeploy_listener == 'node'
+  - role: package/monit
+    when: autodeploy_listener == 'node'
