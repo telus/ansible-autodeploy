@@ -14,7 +14,7 @@ function record_pidfile_at(pidfile_path) {
 }
 
 if (cluster.isMaster) {
-  record_pidfile_at('/data/run/autodeploy/listener.pid');
+  record_pidfile_at('{{ autodeploy_pidfile_path }}');
   cluster.on('exit', function(worker, code, signal) {
     cluster.fork();
   });
