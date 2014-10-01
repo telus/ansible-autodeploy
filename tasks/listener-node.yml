@@ -11,7 +11,7 @@
     - runtime-data
     - mariadb
 
-- name: Setup WebHook Deployment | Listener
+- name: Setup Automated Deployment | Listener
   template:
     src: "{{ item }}"
     dest: "/{{ item }}"
@@ -32,7 +32,7 @@
     state: latest
     path: /data/deployment
 
-- name: Upload Config | monit | webhook-listener
+- name: Upload Config | monit | autodeploy
   template:
     src: etc/monit/conf.d/autodeploy
     dest: /etc/monit/conf.d/autodeploy

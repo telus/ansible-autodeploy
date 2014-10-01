@@ -1,5 +1,5 @@
 ---
-- name: Setup WebHook Deployment | Directory
+- name: Setup Automated Deployment | Directory
   file:
     state: directory
     path: "{{ autodeploy_listener_docroot }}/deploy"
@@ -11,7 +11,7 @@
     - deployment
     - webhooks
 
-- name: Upload Config | nginx | WebHook Deployment
+- name: Upload Config | nginx | Automated Deployment
   template:
     src: etc/nginx/sites-available/deployment.conf
     dest: /etc/nginx/sites-available/deployment.conf
@@ -25,7 +25,7 @@
     - nginx
     - webhooks
 
-- name: Enable Config | nginx | WebHook Deployment
+- name: Enable Config | nginx | Automated Deployment
   file:
     state: link
     src: /etc/nginx/sites-available/deployment.conf
@@ -37,7 +37,7 @@
     - nginx
     - webhooks
 
-- name: Setup WebHook Deployment | Listener
+- name: Setup Automated Deployment | Listener
   template:
     src: data/deployment/listener/index.php
     dest: "{{ autodeploy_listener_docroot }}/index.php"

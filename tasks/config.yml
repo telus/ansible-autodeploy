@@ -14,7 +14,7 @@
     - /var/www/.ssh
     - /data/deployment
 
-- name: Setup WebHook Deployment | Playbook
+- name: Setup Automated Deployment | Playbook
   template:
     src: data/deployment/deploy.yml
     dest: /data/deployment/deploy.yml
