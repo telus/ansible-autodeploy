@@ -9,7 +9,6 @@
   tags:
     - directory-structure
     - deployment
-    - webhooks
 
 - name: Upload Config | nginx | Automated Deployment
   template:
@@ -23,7 +22,6 @@
     - configuration
     - template-configuration
     - nginx
-    - webhooks
 
 - name: Enable Config | nginx | Automated Deployment
   file:
@@ -35,7 +33,6 @@
     - configuration
     - enable-configuration
     - nginx
-    - webhooks
 
 - name: Setup Automated Deployment | Listener
   template:
@@ -48,4 +45,3 @@
   tags:
     - security-concern
     - deployment
-    - webhooks
