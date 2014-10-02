@@ -1,9 +1,12 @@
 ---
 dependencies:
   - role: package/ansible
+  - role: package/postgres
+    postgres_client: yes
+    when: "autodeploy_database_bundled and autodeploy_database_engine == 'postgres'"
   - role: package/mariadb
     mariadb_client: yes
-    when: autodeploy_database_bundled
+    when: "autodeploy_database_bundled and autodeploy_database_engine not 'postgres'"
   - role: package/nodejs
     when: autodeploy_listener == 'node'
   - role: package/monit
