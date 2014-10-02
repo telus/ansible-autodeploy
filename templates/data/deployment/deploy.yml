@@ -52,6 +52,15 @@
 
 {% endfor %}
 {% endif %}
+{% if autodeploy_database_engine == 'postgres' %}
+
+    - name: Database | Drop
+      command: "/usr/bin/dropdb -h database.{{ project }}-{{ environment_tier }}.teluswebteam.com -U {{ database.username | default(project) }} {{ database.name | default(project) }}"
+    - name: Database | Create
+      command: "/usr/bin/createdb -h database.{{ project }}-{{ environment_tier }}.teluswebteam.com -U {{ database.username | default(project) }} {{ database.name | default(project) }}"
+    - name: Database | Import
+      command: "/usr/bin/psql -h database.{{ project }}-{{ environment_tier }}.teluswebteam.com -U {{ database.username | default(project) }} -d {{ database.name | default(project) }} -f {{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+{% else %}
 
     - name: Database | Drop
       mysql_db:
@@ -80,6 +89,7 @@
         target: "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% endif %}
 {% endif %}
 {% if autodeploy_for_wordpress %}
 
