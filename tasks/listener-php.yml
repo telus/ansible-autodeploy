@@ -1,15 +1,4 @@
 ---
-- name: Setup Automated Deployment | Directory
-  file:
-    state: directory
-    path: "{{ autodeploy_listener_docroot }}/deploy"
-    owner: www-data
-    group: wcadmin
-    mode: 0750
-  tags:
-    - directory-structure
-    - deployment
-
 - name: Upload Config | nginx | Automated Deployment
   template:
     src: etc/nginx/sites-available/deployment.conf
@@ -38,9 +27,9 @@
   template:
     src: data/deployment/listener/index.php
     dest: "{{ autodeploy_listener_docroot }}/index.php"
-    owner: root
+    owner: "{{ autodeploy_user }}"
     group: www-data
-    mode: 0440
+    mode: 0444
   when: autodeploy_using_standard_playbook
   tags:
     - security-concern
