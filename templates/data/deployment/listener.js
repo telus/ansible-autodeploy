@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// {{ ansible_managed }}
+
 var cluster = require('cluster'),
     port = 30080;
 
