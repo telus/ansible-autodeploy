@@ -3,7 +3,7 @@
   file:
     state: directory
     path: "{{ item }}"
-    owner: www-data
+    owner: "{{ autodeploy_user }}"
     group: wcadmin
     mode: 0750
   tags:
@@ -25,3 +25,14 @@
   tags:
     - deployment
     - using-ansible
+
+- name: Configure | sudo | allow autodeploy to restart application
+  lineinfile:
+    state: present
+    dest: /etc/sudoers
+    regexp: "^{{ autodeploy_user }}"
+    line: "{{ autodeploy_user }} ALL = NOPASSWD : /usr/bin/monit restart {{ autodeploy_restart_target }}"
+    validate: 'visudo -cf %s'
+  when: autodeploy_restart_enabled
+  tags:
+    - sudo
