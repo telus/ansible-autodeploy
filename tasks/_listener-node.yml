@@ -1,4 +1,6 @@
 ---
+- include: "_proxy-methd-{{ autodeploy_proxy_method }}.yml"
+
 - name: "Directory Exists | {{ autodeploy_runtime_root }}"
   file:
     state: directory

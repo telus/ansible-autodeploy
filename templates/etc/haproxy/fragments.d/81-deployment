@@ -1,0 +1,6 @@
+frontend deployment-in
+  bind :81
+  default_backend listener
+
+backend listener
+  server deployment-listener application{%if environment_tier in ['staging', 'productin'] %}-direct{% endif %}.{{ project }}-{{ environment_tier }}.teluswebteam.com:81

@@ -1,0 +1,20 @@
+---
+- name: Upload Config Fragments | haproxy | deployment
+  template:
+    src: etc/haproxy/fragments.d/81-deployment
+    dest: /etc/haproxy/fragments.d/81-deployment
+  notify: Reload Service | haproxy
+  tags:
+    - configuration
+    - fragment-configuration
+    - haproxy
+
+- name: Assemble Config Fragments | haproxy
+  assemble:
+    src: /etc/haproxy/fragments.d
+    dest: /etc/haproxy/haproxy.cfg
+    delimiter: '### START FRAGMENT ###'
+  tags:
+    - configuration
+    - fragment-configuration
+    - haproxy
