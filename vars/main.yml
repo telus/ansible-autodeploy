@@ -2,6 +2,5 @@
 package_variants:
   postgres:
     - postgresql-client
-    - psycopg2
   mysql-compatible:
     - python-mysqldb
