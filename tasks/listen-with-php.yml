@@ -1,5 +1,5 @@
 ---
-- include: _proxy-method-nginx.yml
+- include: proxy-with-nginx.yml
 
 - name: Setup Automated Deployment | Listener
   template:
