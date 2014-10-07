@@ -1,6 +1,17 @@
 ---
 - include: proxy-with-nginx.yml
 
+- name: "Directory Exists | {{ autodeploy_runtime_root }}"
+  file:
+    state: directory
+    path: "{{ autodeploy_listener_docroot }}"
+    owner: "{{ autodeploy_user }}"
+    group: wcadmin
+    mode: 0775
+  tags:
+    - directory-structure
+    - runtime-data
+
 - name: Setup Automated Deployment | Listener
   template:
     src: data/deployment/listener/index.php

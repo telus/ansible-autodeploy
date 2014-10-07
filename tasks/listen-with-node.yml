@@ -14,7 +14,6 @@
   tags:
     - directory-structure
     - runtime-data
-    - mariadb
 
 - name: Setup Automated Deployment | Listener
   template:
