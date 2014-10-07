@@ -135,3 +135,19 @@
         state: restarted
         name: "{{ autodeploy_restart_target | mandatory }}"
 {% endif %}
+
+{% if autodeploy_slack_notifications_enabled %}
+
+    - name: Get Instance ID
+      shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
+      register: instance_id
+      tags:
+        - hostname
+
+    - name: Notify via Slack
+      slack:
+        domain: telusdigital.slack.com
+        channel: "{{ autodeploy_slack_channel }}"
+        token: "{{ autodeploy_slack_token | mandatory }}"
+        msg: "Automated Deployment Complete on {{ role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
+{% endif %}
