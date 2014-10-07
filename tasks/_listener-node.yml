@@ -1,5 +1,8 @@
 ---
-- include: "_proxy-method-{{ autodeploy_proxy_method }}.yml"
+- include: _proxy-method-haproxy.yml
+  when: autodeploy_proxy_method == 'haproxy'
+- include: _proxy-method-nginx.yml
+  when: autodeploy_proxy_method == 'nginx'
 
 - name: "Directory Exists | {{ autodeploy_runtime_root }}"
   file:
