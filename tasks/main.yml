@@ -2,4 +2,7 @@
 - include: cleanup.yml
 - include: install.yml
 - include: config.yml
-- include: "_listener-{{ autodeploy_listener }}.yml"
+- include: _listener-php.yml
+  when: autodeploy_listener == 'php'
+- include: _listener-node.yml
+  when: autodeploy_listener == 'node'
