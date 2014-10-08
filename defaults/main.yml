@@ -35,4 +35,5 @@ autodeploy_database_engine: mysql-compatible
 autodeploy_proxy_method: nginx
 
 autodeploy_slack_notifications_enabled: no
+autodeploy_slack_domain: telusdigital.slack.com
 autodeploy_slack_channel: "{{ project }}-ops"
