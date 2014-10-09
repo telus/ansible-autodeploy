@@ -55,7 +55,7 @@
 {% if autodeploy_database_engine == 'postgres' %}
 
     - name: Database | Drop
-      command: /usr/bin/dropdb
+      command: "/usr/bin/dropdb {{ database_name | default(project) }}"
       environment:
         PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
         PGUSER: "{{ database_username | default(project) }}"
@@ -63,7 +63,7 @@
         PGPASSWORD: "{{ database_password | mandatory }}"
 
     - name: Database | Create
-      command: /usr/bin/createdb
+      command: "/usr/bin/createdb {{ database_name | default(project) }}"
       environment:
         PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
         PGUSER: "{{ database_username | default(project) }}"
