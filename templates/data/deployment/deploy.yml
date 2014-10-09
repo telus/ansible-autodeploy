@@ -55,11 +55,28 @@
 {% if autodeploy_database_engine == 'postgres' %}
 
     - name: Database | Drop
-      command: "/usr/bin/dropdb -h database.{{ project }}-{{ environment_tier }}.teluswebteam.com -U {{ database_username | default(project) }} {{ database_name | default(project) }}"
+      command: /usr/bin/dropdb
+      environment:
+        PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        PGUSER: "{{ database_username | default(project) }}"
+        PGDATABASE: "{{ database_name | default(project) }}"
+        PGPASSWORD: "{{ database_password | mandatory }}"
+
     - name: Database | Create
-      command: "/usr/bin/createdb -h database.{{ project }}-{{ environment_tier }}.teluswebteam.com -U {{ database_username | default(project) }} {{ database_name | default(project) }}"
+      command: /usr/bin/createdb
+      environment:
+        PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        PGUSER: "{{ database_username | default(project) }}"
+        PGDATABASE: "{{ database_name | default(project) }}"
+        PGPASSWORD: "{{ database_password | mandatory }}"
+
     - name: Database | Import
-      command: "/usr/bin/psql -h database.{{ project }}-{{ environment_tier }}.teluswebteam.com -U {{ database_username | default(project) }} -d {{ database_name | default(project) }} -f {{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+      command: "/usr/bin/psql -f {{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+      environment:
+        PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        PGUSER: "{{ database_username | default(project) }}"
+        PGDATABASE: "{{ database_name | default(project) }}"
+        PGPASSWORD: "{{ database_password | mandatory }}"
 {% else %}
 
     - name: Database | Drop
