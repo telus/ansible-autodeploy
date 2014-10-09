@@ -13,8 +13,10 @@ autodeploy_listener_docroot: /data/deployment/listener
 autodeploy_using_standard_playbook: yes
 
 autodeploy_database_bundled: no
-autodeploy_database_file: import.sql
 autodeploy_database_compressed: no
+autodeploy_database_file: import.sql
+autodeploy_database_file_compressed: "{{ autodeploy_database_file }}.zip"
+
 autodeploy_for_wordpress: no
 autodeploy_rewrite_enabled: no
 autodeploy_rewrite_replace: "application.{{ project }}-{{ environment_tier }}.teluswebteam.com"

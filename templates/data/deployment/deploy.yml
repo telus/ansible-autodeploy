@@ -36,7 +36,7 @@
 
     - name: Database | Unpack
       unarchive:
-        src: "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}.zip"
+        src: "{{ autodeploy_docroot }}/{{ autodeploy_database_file_compressed }}"
         dest: "{{ autodeploy_docroot }}"
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
