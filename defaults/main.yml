@@ -2,6 +2,7 @@
 autodeploy_runtime_root: "{{ runtime_root }}/autodeploy"
 autodeploy_pidfile_path: "{{ autodeploy_runtime_root }}/listener.pid"
 
+autodeploy_repository_origin: ''
 autodeploy_repository_branch: "{{ environment_tier }}"
 autodeploy_docroot: /data/www/docroot
 autodeploy_key: /data/deployment/deploy.key
