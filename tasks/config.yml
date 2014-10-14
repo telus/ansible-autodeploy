@@ -14,6 +14,12 @@
     - /var/www/.ssh
     - /data/deployment
 
+- name: Get Instance ID
+  shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
+  register: instance_id
+  tags:
+    - hostname
+
 - name: Setup Automated Deployment | Playbook
   template:
     src: data/deployment/deploy.yml
