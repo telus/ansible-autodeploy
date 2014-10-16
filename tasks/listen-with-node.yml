@@ -41,7 +41,7 @@
     dest: /etc/monit/conf.d/autodeploy
   notify: Reload Service | monit
   tags:
-    - monit
+    - using-monit
 
 - name: Trigger All Callbacks
   meta: flush_handlers
