@@ -151,10 +151,12 @@
   shell: "cd {{ autodeploy_compass_root }} && /usr/local/bin/compass compile -e production --force"
 {% endif %}
 {% if autodeploy_requirejs_enabled %}
+{% raw %}
 
 - name: Compile | RequireJS
-  command: '/usr/bin/r.js -o {{ item }}'
+  command: "/usr/bin/r.js -o {{ item }}"
   with_fileglob: autodeploy_requirejs_fileglob
+{% endraw %}
 {% endif %}
 {% if autodeploy_restart_enabled %}
 
