@@ -145,6 +145,17 @@
         state: latest
         path: "{{ autodeploy_docroot }}"
 {% endif %}
+{% if autodeploy_compass_enabled %}
+
+- name: Compile | Compass / SCSS
+  shell: "cd {{ autodeploy_compass_root }} && /usr/local/bin/compass compile -e production --force"
+{% endif %}
+{% if autodeploy_requirejs_enabled %}
+
+- name: Compile | RequireJS
+  command: "/usr/bin/r.js -o {{ item }}"
+  with_fileglob: autodeploy_requirejs_fileglob
+{% endif %}
 {% if autodeploy_restart_enabled %}
 
     - name: Restart Application

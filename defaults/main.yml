@@ -40,3 +40,8 @@ autodeploy_proxy_method: nginx
 autodeploy_slack_notifications_enabled: no
 autodeploy_slack_domain: telusdigital.slack.com
 autodeploy_slack_channel: "{{ project }}-ops"
+
+autodeploy_compass_enabled: no
+autodeploy_compass_root: "{{ autodeploy_docroot }}/static/styles"
+autodeploy_requirejs_enabled: no
+autodeploy_requirejs_fileglob: "{{ autodeploy_docroot }}/static/scripts/build/*.js"
