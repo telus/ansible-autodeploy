@@ -154,7 +154,7 @@
 
     - name: Compile | RequireJS
       command: "/usr/bin/r.js -o {{ '{{ item }}' }}"
-      with_fileglob: autodeploy_requirejs_fileglob
+      with_fileglob: "{{ autodeploy_requirejs_fileglob }}"
 {% endif %}
 {% if autodeploy_restart_enabled %}
 
