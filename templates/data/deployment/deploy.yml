@@ -145,6 +145,11 @@
         state: latest
         path: "{{ autodeploy_docroot }}"
 {% endif %}
+{% if autodeploy_composer_enabled %}
+
+    - name: Install Modules | Composer
+      shell: "cd {{ autodeploy_composer_root }} && /usr/local/bin/composer install"
+{% endif %}
 {% if autodeploy_compass_enabled %}
 
     - name: Compile | Compass / SCSS
