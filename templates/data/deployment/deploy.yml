@@ -24,6 +24,10 @@
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 {% if autodeploy_external_asset_storage_enabled %}
+    - name: External Asset Storage | Discard Assets from Repository
+      file:
+        state: absent
+        path: "{{ autodeploy_external_asset_storage_destination }}"
 
     - name: External Asset Storage | Connect to Deployment Path
       file:
@@ -54,24 +58,12 @@
 {% endif %}
 {% if autodeploy_database_engine == 'postgres' %}
 
-    - name: Database | Drop
-      command: "/usr/bin/dropdb {{ database_name | default(project) }}"
-      environment:
-        PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
-        PGUSER: "{{ database_username | default(project) }}"
-        PGDATABASE: "{{ database_name | default(project) }}"
-        PGPASSWORD: "{{ database_password | mandatory }}"
-
-    - name: Database | Create
-      command: "/usr/bin/createdb {{ database_name | default(project) }}"
-      environment:
-        PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
-        PGUSER: "{{ database_username | default(project) }}"
-        PGDATABASE: "{{ database_name | default(project) }}"
-        PGPASSWORD: "{{ database_password | mandatory }}"
-
-    - name: Database | Import
-      command: "/usr/bin/psql -f {{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+    - name: Database | Drop / Create / Import
+      command: "{{ '{{ item }}' }}"
+      with_items:
+        - "/usr/bin/dropdb {{ database_name | default(project) }}"
+        - "/usr/bin/createdb {{ database_name | default(project) }}"
+        - "/usr/bin/psql -f {{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
       environment:
         PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
         PGUSER: "{{ database_username | default(project) }}"
@@ -79,64 +71,40 @@
         PGPASSWORD: "{{ database_password | mandatory }}"
 {% else %}
 
-    - name: Database | Drop
+    - name: Database | Drop / Create / Import
       mysql_db:
-        state: absent
+        state: "{{ '{{ item.state }}' }}"
         login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
         login_password: "{{ database_password }}"
         login_user: "{{ database_username | default(project) }}"
         name: "{{ database_name | default(project) }}"
-      ignore_errors: True
-
-    - name: Database | Create
-      mysql_db:
-        state: present
-        login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
-        login_password: "{{ database_password }}"
-        login_user: "{{ database_username | default(project) }}"
-        name: "{{ database_name | default(project) }}"
-
-    - name: Database | Import
-      mysql_db:
-        state: import
-        login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
-        login_password: "{{ database_password }}"
-        login_user: "{{ database_username | default(project) }}"
-        name: "{{ database_name | default(project) }}"
-        target: "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
+        target: "{{ '{{ item.target | default(omit) }}' }}"
+      with_items:
+        - { state: absent }
+        - { state: present }
+        - { state: import, target: "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}" }
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ignore_errors: True
 {% endif %}
 {% endif %}
 {% if autodeploy_for_wordpress %}
 
-    - name: Configure Application | database | name
+    - name: Configure Application | database parameters
       lineinfile:
         state: present
-        dest: "{{ autodeploy_docroot }}/wp-config.php"
-        regexp: 'DB_NAME'
-        line: "define('DB_NAME', '{{ database_name | default(project) }}');"
-
-    - name: Configure Application | database | username
-      lineinfile:
-        state: present
-        dest: "{{ autodeploy_docroot }}/wp-config.php"
-        regexp: 'DB_USER'
-        line: "define('DB_USER', '{{ database_username | default(project) }}');"
-
-    - name: Configure Application | database | password
-      lineinfile:
-        state: present
-        dest: "{{ autodeploy_docroot }}/wp-config.php"
-        regexp: 'DB_PASSWORD'
-        line: "define('DB_PASSWORD', '{{ database_password | mandatory }}');"
-
-    - name: Configure Application | database | server
-      lineinfile:
-        state: present
-        dest: "{{ autodeploy_docroot }}/wp-config.php"
-        regexp: 'DB_HOST'
-        line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
+        dest: "{{ autodeploy_wordpress_config_path }}"
+        regexp: "{{ '{{ item.regexp }}' }}"
+        line: "{{ '{{ item.line }}' }}"
+      with_items:
+        - regexp: DB_HOST
+          line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
+        - regexp: DB_NAME
+          line: "define('DB_NAME', '{{ database_name | default(project) }}');"
+        - regexp: DB_USER
+          line: "define('DB_USER', '{{ database_username | default(project) }}');"
+        - regexp: DB_PASSWORD
+          line: "define('DB_PASSWORD', '{{ database_password | mandatory }}');"
 {% endif %}
 {% if autodeploy_for_node %}
 
