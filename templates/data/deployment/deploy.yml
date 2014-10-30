@@ -53,7 +53,18 @@
         dest: "{{ file }}"
         regexp: "{{ autodeploy_rewrite_match | mandatory }}"
         replace: "{{ autodeploy_rewrite_replace }}"
+{% endfor %}
+{% endif %}
+{% if autodeploy_insert_enabled %}
+{% for insert in autodeploy_insert %}
 
+    - name: "Rewrite Deployed Code in {{ file }}"
+      lineinfile:
+        state: present
+        create: yes
+        dest: "{{ insert.file }}"
+        regexp: "{{ insert.match | default(insert.contents) }}"
+        replace: "{{ insert.contents }}"
 {% endfor %}
 {% endif %}
 {% if autodeploy_database_engine == 'postgres' %}

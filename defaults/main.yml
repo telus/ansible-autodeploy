@@ -26,6 +26,11 @@ autodeploy_rewrite_replace: "application.{{ project }}-{{ environment_tier }}.te
 autodeploy_rewrite_files:
   - "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
 
+autodeploy_insert_enabled: no
+autodeploy_insert:
+  - file: /data/www/docroot/environment.conf
+    contents: "{{ environment_tier }}"
+
 autodeploy_external_asset_storage_enabled: no
 autodeploy_external_asset_storage_source: /data/www/assets
 autodeploy_external_asset_storage_destination: /data/www/docroot/wp-content/uploads
