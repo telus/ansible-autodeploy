@@ -58,7 +58,7 @@
 {% if autodeploy_insert_enabled %}
 {% for insert in autodeploy_insert %}
 
-    - name: "Rewrite Deployed Code in {{ file }}"
+    - name: "Insert Data into {{ insert.file }}"
       lineinfile:
         state: present
         create: yes
