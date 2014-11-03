@@ -159,5 +159,5 @@
         domain: "{{ autodeploy_slack_domain }}"
         channel: "{{ autodeploy_slack_channel }}"
         token: "{{ autodeploy_slack_token | mandatory }}"
-        msg: "Automated Deployment Complete on {{ role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
+        msg: "Automated Deployment Complete on {{ role_name }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
 {% endif %}
