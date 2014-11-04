@@ -35,28 +35,8 @@
         src: "{{ autodeploy_external_asset_storage_source }}"
         dest: "{{ autodeploy_external_asset_storage_destination }}"
 {% endif %}
-{% if autodeploy_database_bundled and environment_tier not in ['production'] %}
-{% if autodeploy_database_compressed %}
-
-    - name: Database | Unpack
-      unarchive:
-        src: "{{ autodeploy_docroot }}/{{ autodeploy_database_file_compressed }}"
-        dest: "{{ autodeploy_docroot }}"
-      environment:
-        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-{% endif %}
-{% if autodeploy_rewrite_enabled %}
-{% for file in autodeploy_rewrite_files %}
-
-    - name: "Rewrite Deployed Code in {{ file }}"
-      replace:
-        dest: "{{ file }}"
-        regexp: "{{ autodeploy_rewrite_match | mandatory }}"
-        replace: "{{ autodeploy_rewrite_replace }}"
-{% endfor %}
-{% endif %}
 {% if autodeploy_insert_enabled %}
-{% for insert in autodeploy_insert %}
+{%   for insert in autodeploy_insert %}
 
     - name: "Insert Data into {{ insert.file }}"
       lineinfile:
@@ -65,9 +45,30 @@
         dest: "{{ insert.file }}"
         regexp: "{{ insert.match | default(insert.contents) }}"
         replace: "{{ insert.contents }}"
-{% endfor %}
+{%   endfor %}
 {% endif %}
-{% if autodeploy_database_engine == 'postgres' %}
+
+{% if autodeploy_database_bundled and environment_tier not in ['production'] %}
+{%   if autodeploy_database_compressed %}
+
+    - name: Database | Unpack
+      unarchive:
+        src: "{{ autodeploy_docroot }}/{{ autodeploy_database_file_compressed }}"
+        dest: "{{ autodeploy_docroot }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{%   endif %}
+{%   if autodeploy_rewrite_enabled %}
+{%     for file in autodeploy_rewrite_files %}
+
+    - name: "Rewrite Deployed Code in {{ file }}"
+      replace:
+        dest: "{{ file }}"
+        regexp: "{{ autodeploy_rewrite_match | mandatory }}"
+        replace: "{{ autodeploy_rewrite_replace }}"
+{%     endfor %}
+{%   endif %}
+{%   if autodeploy_database_engine == 'postgres' %}
 
     - name: Database | Drop / Create / Import
       command: "{{ '{{ item }}' }}"
@@ -80,7 +81,7 @@
         PGUSER: "{{ database_username | default(project) }}"
         PGDATABASE: "{{ database_name | default(project) }}"
         PGPASSWORD: "{{ database_password | mandatory }}"
-{% else %}
+{%   else %}
 
     - name: Database | Drop / Create / Import
       mysql_db:
@@ -97,7 +98,7 @@
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ignore_errors: True
-{% endif %}
+{%   endif %}
 {% endif %}
 {% if autodeploy_for_wordpress %}
 
