@@ -44,7 +44,7 @@
         create: yes
         dest: "{{ insert.file }}"
         regexp: "{{ insert.match | default(insert.contents) }}"
-        replace: "{{ insert.contents }}"
+        line: "{{ insert.contents }}"
 {%   endfor %}
 {% endif %}
 
