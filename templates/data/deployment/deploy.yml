@@ -114,7 +114,7 @@
         regexp: "{{ '{{ item.regexp }}' }}"
         line: "{{ '{{ item.line }}' }}"
       with_items:
-        - regexp: DB_HOST
+        - regexp: "'DB_HOST'"
           line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
         - regexp: DB_NAME
           line: "define('DB_NAME', '{{ database_name | default(project) }}');"
