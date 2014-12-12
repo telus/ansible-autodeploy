@@ -13,6 +13,7 @@
   with_items:
     - /var/www/.ssh
     - /data/deployment
+    - "{{ autodeploy_docroot }}"
 
 - name: Get Instance ID
   shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
