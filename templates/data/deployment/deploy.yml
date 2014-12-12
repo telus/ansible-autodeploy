@@ -146,13 +146,13 @@
       command: "/usr/bin/r.js -o {{ '{{ item }}' }}"
       with_fileglob: "{{ autodeploy_requirejs_fileglob }}"
 {% endif %}
-{% if autodeploy_post_deployment_commands is iterable %}
-{%   for post_deployment_command in autodeploy_post_deployment_commands %}
+
+{% for post_deployment_command in autodeploy_post_deployment_commands %}
 
     - name: Post Deployment Command | {{ post_deployment_command }}
       shell: "cd {{ autodeploy_docroot }} && {{ post_deployment_command }}"
-{%   endfor %}
-{% endif %}
+{% endfor %}
+
 {% if autodeploy_restart_enabled %}
 
     - name: Restart Application
