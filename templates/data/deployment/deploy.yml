@@ -52,7 +52,24 @@
         line: "{{ insert.contents }}"
 {%   endfor %}
 {% endif %}
+{% if autodeploy_for_wordpress %}
 
+    - name: Configure Application | database parameters
+      lineinfile:
+        state: present
+        dest: "{{ autodeploy_wordpress_config_path }}"
+        regexp: "{{ '{{ item.regexp }}' }}"
+        line: "{{ '{{ item.line }}' }}"
+      with_items:
+        - regexp: "'DB_HOST'"
+          line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
+        - regexp: DB_NAME
+          line: "define('DB_NAME', '{{ database_name | default(project) }}');"
+        - regexp: DB_USER
+          line: "define('DB_USER', '{{ database_username | default(project) }}');"
+        - regexp: DB_PASSWORD
+          line: "define('DB_PASSWORD', '{{ database_password | mandatory }}');"
+{% endif %}
 {% if autodeploy_database_bundled and environment_tier not in ['production'] %}
 {%   if autodeploy_database_compressed %}
 
@@ -104,24 +121,6 @@
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ignore_errors: True
 {%   endif %}
-{% endif %}
-{% if autodeploy_for_wordpress %}
-
-    - name: Configure Application | database parameters
-      lineinfile:
-        state: present
-        dest: "{{ autodeploy_wordpress_config_path }}"
-        regexp: "{{ '{{ item.regexp }}' }}"
-        line: "{{ '{{ item.line }}' }}"
-      with_items:
-        - regexp: "'DB_HOST'"
-          line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
-        - regexp: DB_NAME
-          line: "define('DB_NAME', '{{ database_name | default(project) }}');"
-        - regexp: DB_USER
-          line: "define('DB_USER', '{{ database_username | default(project) }}');"
-        - regexp: DB_PASSWORD
-          line: "define('DB_PASSWORD', '{{ database_password | mandatory }}');"
 {% endif %}
 {% if autodeploy_for_node %}
 
