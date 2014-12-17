@@ -32,7 +32,7 @@ autodeploy_insert:
     contents: "{{ environment_tier }}"
 
 autodeploy_external_asset_storage_enabled: no
-autodeploy_external_asset_storage_source: /data/www/assets
+autodeploy_external_asset_storage_source: /mnt/s3/assets
 autodeploy_external_asset_storage_destination: /data/www/docroot/wp-content/uploads
 
 autodeploy_listener: php
