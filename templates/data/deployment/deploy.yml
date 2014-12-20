@@ -62,7 +62,7 @@
         line: "{{ '{{ item.line }}' }}"
       with_items:
         - regexp: "'DB_HOST'"
-          line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.teluswebteam.com');"
+          line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.{{ domain }}');"
         - regexp: DB_NAME
           line: "define('DB_NAME', '{{ database_name | default(project) }}');"
         - regexp: DB_USER
@@ -99,7 +99,7 @@
         - "/usr/bin/createdb {{ database_name | default(project) }}"
         - "/usr/bin/psql -f {{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
       environment:
-        PGHOST: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        PGHOST: "database.{{ project }}-{{ environment_tier }}.{{ domain }}"
         PGUSER: "{{ database_username | default(project) }}"
         PGDATABASE: "{{ database_name | default(project) }}"
         PGPASSWORD: "{{ database_password | mandatory }}"
@@ -108,7 +108,7 @@
     - name: Database | Drop / Create / Import
       mysql_db:
         state: "{{ '{{ item.state }}' }}"
-        login_host: "database.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+        login_host: "database.{{ project }}-{{ environment_tier }}.{{ domain }}"
         login_password: "{{ database_password }}"
         login_user: "{{ database_username | default(project) }}"
         name: "{{ database_name | default(project) }}"

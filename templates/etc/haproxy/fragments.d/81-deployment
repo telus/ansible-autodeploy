@@ -3,4 +3,4 @@ frontend deployment-in
   default_backend listener
 
 backend listener
-  server deployment-listener application{%if environment_tier in ['staging', 'productin'] %}-direct{% endif %}.{{ project }}-{{ environment_tier }}.teluswebteam.com:81
+  server deployment-listener application{%if environment_tier in ['staging', 'productin'] %}-direct{% endif %}.{{ project }}-{{ environment_tier }}.{{ domain }}:81

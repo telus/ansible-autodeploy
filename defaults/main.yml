@@ -22,7 +22,7 @@ autodeploy_for_wordpress: no
 autodeploy_wordpress_config_path: "{{ autodeploy_docroot }}/wp-config.php"
 
 autodeploy_rewrite_enabled: no
-autodeploy_rewrite_replace: "application.{{ project }}-{{ environment_tier }}.teluswebteam.com"
+autodeploy_rewrite_replace: "application.{{ project }}-{{ environment_tier }}.{{ domain }}"
 autodeploy_rewrite_files:
   - "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
 
