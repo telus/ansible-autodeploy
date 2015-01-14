@@ -11,3 +11,7 @@ dependencies:
     when: autodeploy_listener == 'node'
   - role: package/monit
     when: autodeploy_listener == 'node'
+  - role: package/python
+    python_legacy_support: yes
+    python_packages:
+      - ansible
