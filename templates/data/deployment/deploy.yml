@@ -55,6 +55,7 @@
 {% if autodeploy_for_wordpress %}
 
     - name: Configure Application | database parameters
+      no_log: yes
       lineinfile:
         state: present
         dest: "{{ autodeploy_wordpress_config_path }}"
@@ -94,6 +95,7 @@
 
     - name: Database | Drop / Create / Import
       command: "{{ '{{ item }}' }}"
+      no_log: yes
       with_items:
         - "/usr/bin/dropdb {{ database_name | default(project) }}"
         - "/usr/bin/createdb {{ database_name | default(project) }}"
