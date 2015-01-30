@@ -172,8 +172,8 @@
 
     - name: Notify via Slack
       slack:
-        domain: "{{ autodeploy_slack_domain }}"
-        channel: "{{ autodeploy_slack_channel }}"
+        domain: "{{ slack_domain }}"
+        channel: "{{ slack_channel }}"
         token: "{{ autodeploy_slack_token | mandatory }}"
         msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ system_role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
 {% endif %}
