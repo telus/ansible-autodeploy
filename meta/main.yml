@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - role: common/slack
+  - role: meta/slack
     slack_dry_run: yes
   - role: package/ansible
   - role: package/postgres
