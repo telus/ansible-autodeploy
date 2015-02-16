@@ -56,3 +56,5 @@ autodeploy_composer_enabled: no
 autodeploy_composer_root: "{{ autodeploy_docroot }}"
 
 autodeploy_post_deployment_commands: []
+
+deployment_private_key: ''
