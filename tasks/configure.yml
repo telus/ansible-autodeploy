@@ -1,16 +1,4 @@
 ---
-- name: Upload Deployment Key
-  template:
-    src: data/deployment/deploy.key
-    dest: /data/deployment/deploy.key
-    owner: www-data
-    group: www-data
-    mode: 0400
-  when: deployment_private_key
-  tags:
-    - deployment
-    - improves-security
-
 - name: Directories Exists | Deployment
   file:
     state: directory
@@ -26,6 +14,18 @@
     - /var/www/.ssh
     - /data/deployment
     - "{{ autodeploy_docroot }}"
+
+- name: Upload Deployment Key
+  template:
+    src: data/deployment/deploy.key
+    dest: /data/deployment/deploy.key
+    owner: www-data
+    group: www-data
+    mode: 0400
+  when: deployment_private_key
+  tags:
+    - deployment
+    - improves-security
 
 - name: Get Instance ID
   shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
