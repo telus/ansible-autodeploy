@@ -3,7 +3,8 @@
 // {{ ansible_managed }}
 
 var cluster = require('cluster'),
-    port = 30080;
+  fs = require('fs'),
+  port = 30080;
 
 function record_pidfile_at(pidfile_path) {
   try {
@@ -25,11 +26,22 @@ if (cluster.isMaster) {
   require('http').createServer(function(request, response) {
     response.statusCode = 200;
     response.write('<pre>');
-    ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/deploy.yml']);
+    switch(request.url) {
+      case '/':
+      // if no project specified deploy using all .yml files in /data/deployment
+      fs.readdir('/data/deployment', function(err, files) {
+        if(err) console.log(err); 
+        files.filter(function(item) {
+          if(/\.yml/.test(item)) {
+            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
+          }
+        })
+      })
+      default:
+        ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
+    } 
     ansible.stdout.pipe(response);
     ansible.stdout.on('end', function() {
       response.end('</pre>');
-      
     })
   }).listen(port);
-}

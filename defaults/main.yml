@@ -40,6 +40,9 @@ autodeploy_listener: php
 autodeploy_for_node: no
 autodeploy_restart_enabled: no
 
+autodeploy_dynamic_deploy: no
+autodeploy_initial_deploy: no
+
 autodeploy_database_engine: mysql-compatible
 
 autodeploy_proxy_method: nginx

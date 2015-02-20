@@ -17,3 +17,13 @@ dependencies:
     python_legacy_support: yes
     python_packages:
       - ansible
+  - role: package/upstart
+    upstart_name: initial_deploy
+    upstart_description: 'Initial deploy of all code repos'
+    upstart_group: "{{ autodeploy_group }}"
+    upstart_user: "{{ autodeploy_user }}"
+    upstart_exec_path: curl http://localhost:81
+    upstart_log_root: "{{ autodeploy_log_root }}"
+    upstart_pidfile_path: "{{ autodeploy_pidfile_path }}"
+    upstart_runtime_root: "{{ autodeploy_runtime_root }}"
+    when: autodeploy_initial_deploy

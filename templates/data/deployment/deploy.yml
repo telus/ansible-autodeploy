@@ -14,13 +14,13 @@
 {% endif %}
     - name: Fetch Application Code from git
       git:
-        repo: "{{ autodeploy_repository_origin }}"
+        repo: "{{'{{'}} dynamic_repository_origin | default({{ autodeploy_repository_origin }}) {{'}}'}}"
         accept_hostkey: yes
         dest: "{{ autodeploy_docroot }}"
-        key_file: "{{ autodeploy_key }}"
+        key_file: "{{'{{'}} dynamic_deploy_key | default({{ autodeploy_key }}) {{'}}'}}"
         update: yes
         force: yes
-        version: "{{ autodeploy_repository_branch }}"
+        version: "{{'{{'}} dynamic_repository_branch | default({{ autodeploy_repository_branch }}) {{'}}'}}"
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 {% if autodeploy_external_asset_storage_enabled %}
