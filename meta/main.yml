@@ -23,7 +23,7 @@ dependencies:
     upstart_group: "{{ autodeploy_group }}"
     upstart_user: "{{ autodeploy_user }}"
     upstart_exec_path: curl http://localhost:81
-    upstart_log_root: "{{ autodeploy_log_root }}"
+    upstart_log_root: /var/log/autodeploy
     upstart_pidfile_path: "{{ autodeploy_pidfile_path }}"
     upstart_runtime_root: "{{ autodeploy_runtime_root }}"
     when: autodeploy_initial_deploy
