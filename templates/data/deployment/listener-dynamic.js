@@ -34,15 +34,19 @@ if (cluster.isMaster) {
           response.statusCode = 200;
           response.write('<pre>');
           var canon = post["canon_url"].replace(/^.+:\/\//,'git@');
-          var repo = post["repository"]["absolute_url"].replace(/\/$/, ".git").replace(/^\//, ":");
+          var absolute_url = post["repository"]["absolute_url"];
+          var repo = absolute_url.replace(/\/$/, ".git").replace(/^\//, ":");
           var dynamic_repository_origin = canon + repo;
+          // TODO -- correct this. Dont know if this actually work. test it out. 
+          var dynamic_repository_branch = post["commits"][0]["branch"];
           if (fs.existsSync('/data/deployment/deploy.key')) {
             var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin + ' dynamic_repository_branch=' + dynamic_repository_branch;
           } else {
-            var dynamic_deploy_key = post["repository"]["absolute_url"].substring(post["repository"]["absolute_url"].lastIndexOf('/') + 1);
+            var absolute_repo = absolute_url.substring(absolute_url.lastIndexOf('/') + 1) + '.key';
             var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin + ' dynamic_repository_branch=' + dynamic_repository_branch + ' dynamic_deploy_key=' + dynamic_deploy_key;
           }
-          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/deploy.yml --extra-vars=" + extra_vars + ""]);
+          var playbook = absolute_url.substring(absolute_url.lastIndexOf('/') + 1) + '.yml';
+          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook + " --extra-vars=" + extra_vars + ""]);
           ansible.stdout.pipe(response);
           ansible.stdout.on('end', function() {
             response.end('</pre>');
@@ -60,7 +64,7 @@ if (cluster.isMaster) {
               if(/\.yml/.test(item)) {
                 ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
               }
-            })
+            });
           })
           default:
             ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
@@ -68,6 +72,7 @@ if (cluster.isMaster) {
         ansible.stdout.pipe(response);
         ansible.stdout.on('end', function() {
           response.end('</pre>');
-        })
+        });
+    }
   }).listen(port);
 }
