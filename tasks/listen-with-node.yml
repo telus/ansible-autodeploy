@@ -30,7 +30,7 @@
     - deployment
 
 - name: Setup Automated Deployment | package.json
- template:
+  template:
     src: "data/deployment/package.json"
     dest: "/data/deployment/package.json"
     owner: www-data
