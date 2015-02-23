@@ -15,7 +15,7 @@
     - directory-structure
     - runtime-data
 
-- name: Setup Automated Deployment | Listener
+- name: Setup Automated Deployment | listener.js
   template:
     src: "data/deployment/{{ item }}"
     dest: "/data/deployment/listener.js"
@@ -24,7 +24,18 @@
     mode: 0460
   with_items:
     - "{% if autodeploy_dynamic_deploy %}listener-dynamic.js{% else %}listener-static.js{% endif %}"
-    - package.json
+  when: autodeploy_listener == 'node'
+  tags:
+    - security-concern
+    - deployment
+
+- name: Setup Automated Deployment | package.json
+ template:
+    src: "data/deployment/package.json"
+    dest: "/data/deployment/package.json"
+    owner: www-data
+    group: wcadmin
+    mode: 0460
   when: autodeploy_listener == 'node'
   tags:
     - security-concern
