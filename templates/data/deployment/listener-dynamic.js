@@ -34,25 +34,23 @@ if (cluster.isMaster) {
           response.write('<pre>');
 
           var post = qs.parse(body);
-          var canon = post["canon_url"].replace(/^.+:\/\//,'git@');
+          var canon_url = post["canon_url"].replace(/^.+:\/\//,'git@');
           var absolute_url = post["repository"]["absolute_url"];
-          var repo = absolute_url.replace(/\/$/, ".git").replace(/^\//, ":");
-          var dynamic_repository_origin = canon + repo;
+          var repository = absolute_url.replace(/\/$/, ".git").replace(/^\//, ":");
+          var dynamic_repository_origin = canon_url + repository;
+          var dynamic_deploy_key = '/data/deployment/' + post["repository"]["slug"] + '.key';
 
           if (fs.existsSync('/data/deployment/deploy.key')) {
-            var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin;
+            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/deploy.yml"]);
           } else {
-            var absolute_repo = absolute_url.substring(absolute_url.lastIndexOf('/') + 1) + '.key';
-            var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin + ' dynamic_deploy_key=' + dynamic_deploy_key;
+            var playbook = post["repository"]["slug"] + '.yml';
+            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook]);
           }
 
-          var playbook = absolute_url.substring(absolute_url.lastIndexOf('/') + 1) + '.yml';
-          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook + " --extra-vars=" + extra_vars]);
           ansible.stdout.pipe(response);
           ansible.stdout.on('end', function() {
             response.end('</pre>');
           })
-
         });
       break;
       case 'GET':
