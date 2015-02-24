@@ -24,6 +24,9 @@ if (cluster.isMaster) {
   cluster.fork();
 } else {
   require('http').createServer(function(request, response) {
+
+// {% if autodeploy_dynamic_deploy %}
+
     switch (request.method) {
       case 'POST':
         request.on('data', function (data) {
@@ -34,14 +37,11 @@ if (cluster.isMaster) {
           response.write('<pre>');
 
           var post = qs.parse(body);
-          var canon_url = post["canon_url"].replace(/^.+:\/\//,'git@');
-          var absolute_url = post["repository"]["absolute_url"];
-          var repository = absolute_url.replace(/\/$/, ".git").replace(/^\//, ":");
-          var dynamic_repository_origin = canon_url + repository;
-          var dynamic_deploy_key = '/data/deployment/' + post["repository"]["slug"] + '.key';
 
+          // if there is only one repository on this server, deploy the single project .yml file
           if (fs.existsSync('/data/deployment/deploy.key')) {
             ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/deploy.yml"]);
+          // else deploy the project specified by the github POST payload
           } else {
             var playbook = post["repository"]["slug"] + '.yml';
             ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook]);
@@ -58,8 +58,8 @@ if (cluster.isMaster) {
         response.write('<pre>');
 
         switch(request.url) {
+          // if no repository is specified on a GET, deploy all projects in /data/deployment
           case '/':
-            // if no project specified deploy using all .yml files in /data/deployment
             fs.readdir('/data/deployment', function(err, files) {
               if(err) console.log(err); 
               files.filter(function(item) {
@@ -69,14 +69,46 @@ if (cluster.isMaster) {
               });
             })
             break;
+          // else deploy the project according to the specified URL
           default:
             ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
         }
+
         ansible.stdout.pipe(response);
         ansible.stdout.on('end', function() {
           response.end('</pre>');
         });
       break;
     }
+    
+// {% else %}
+
+    response.statusCode = 200;
+    response.write('<pre>');
+
+    switch(request.url) {
+      // if no repository is specified on a GET, deploy all projects in /data/deployment
+      case '/':
+        fs.readdir('/data/deployment', function(err, files) {
+          if(err) console.log(err); 
+          files.filter(function(item) {
+            if(/\.yml/.test(item)) {
+              ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
+            }
+          });
+        })
+        break;
+      // else deploy the project according to the specified URL
+      default:
+        ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
+    }
+
+    ansible.stdout.pipe(response);
+    ansible.stdout.on('end', function() {
+      response.end('</pre>');
+    });
+
+// {% endif %}
+
   }).listen(port);
 }

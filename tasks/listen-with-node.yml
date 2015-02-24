@@ -17,13 +17,11 @@
 
 - name: Setup Automated Deployment | listener.js
   template:
-    src: "data/deployment/{{ item }}"
+    src: "data/deployment/listener.js"
     dest: "/data/deployment/listener.js"
     owner: www-data
     group: wcadmin
     mode: 0460
-  with_items:
-    - "{% if autodeploy_dynamic_deploy %}listener-dynamic.js{% else %}listener-static.js{% endif %}"
   when: autodeploy_listener == 'node'
   tags:
     - security-concern
