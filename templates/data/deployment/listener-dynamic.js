@@ -30,49 +30,55 @@ if (cluster.isMaster) {
           body += data
         });
         request.on('end', function () {
-          var post = qs.parse(body);
           response.statusCode = 200;
           response.write('<pre>');
+
+          var post = qs.parse(body);
           var canon = post["canon_url"].replace(/^.+:\/\//,'git@');
           var absolute_url = post["repository"]["absolute_url"];
           var repo = absolute_url.replace(/\/$/, ".git").replace(/^\//, ":");
           var dynamic_repository_origin = canon + repo;
-          // TODO -- correct this. Dont know if this actually work. test it out. 
-          var dynamic_repository_branch = post["commits"][0]["branch"];
+
           if (fs.existsSync('/data/deployment/deploy.key')) {
-            var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin + ' dynamic_repository_branch=' + dynamic_repository_branch;
+            var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin;
           } else {
             var absolute_repo = absolute_url.substring(absolute_url.lastIndexOf('/') + 1) + '.key';
-            var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin + ' dynamic_repository_branch=' + dynamic_repository_branch + ' dynamic_deploy_key=' + dynamic_deploy_key;
+            var extra_vars = 'dynamic_repository_origin=' + dynamic_repository_origin + ' dynamic_deploy_key=' + dynamic_deploy_key;
           }
+
           var playbook = absolute_url.substring(absolute_url.lastIndexOf('/') + 1) + '.yml';
-          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook + " --extra-vars=" + extra_vars + ""]);
+          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook + " --extra-vars=" + extra_vars]);
           ansible.stdout.pipe(response);
           ansible.stdout.on('end', function() {
             response.end('</pre>');
           })
+
         });
+      break;
       case 'GET':
         response.statusCode = 200;
         response.write('<pre>');
+
         switch(request.url) {
           case '/':
-          // if no project specified deploy using all .yml files in /data/deployment
-          fs.readdir('/data/deployment', function(err, files) {
-            if(err) console.log(err); 
-            files.filter(function(item) {
-              if(/\.yml/.test(item)) {
-                ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
-              }
-            });
-          })
+            // if no project specified deploy using all .yml files in /data/deployment
+            fs.readdir('/data/deployment', function(err, files) {
+              if(err) console.log(err); 
+              files.filter(function(item) {
+                if(/\.yml/.test(item)) {
+                  ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
+                }
+              });
+            })
+            break;
           default:
             ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
-        } 
+        }
         ansible.stdout.pipe(response);
         ansible.stdout.on('end', function() {
           response.end('</pre>');
         });
+      break;
     }
   }).listen(port);
 }
