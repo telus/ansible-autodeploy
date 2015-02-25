@@ -133,6 +133,11 @@
       environment:
         HOME: "/var/www"
 {% endif %}
+{% if autodeploy_for_ruby %}
+
+    - name: Update Dependencies | Bundler
+      shell: "cd {{ autodeploy_docroot }} && /usr/local/bin/bundle install"
+{% endif %}
 {% if autodeploy_composer_enabled %}
 
     - name: Install Modules | Composer

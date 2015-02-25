@@ -38,6 +38,7 @@ autodeploy_external_asset_storage_destination: /data/www/docroot/wp-content/uplo
 autodeploy_listener: php
 
 autodeploy_for_node: no
+autodeploy_for_ruby: no
 autodeploy_restart_enabled: no
 
 autodeploy_database_engine: mysql-compatible

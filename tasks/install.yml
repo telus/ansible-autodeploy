@@ -28,3 +28,9 @@
   with_items:
     - forever
   when: autodeploy_listener == 'node'
+
+- name: Install Packages | bundler
+  gem:
+    state: latest
+    name: bundler
+  when: autodeploy_for_ruby
