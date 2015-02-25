@@ -22,7 +22,7 @@
     owner: www-data
     group: www-data
     mode: 0400
-    when: deployment_private_key
+  when: deployment_private_key
   tags:
     - deployment
     - improves-security
