@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
-// {{ ansible_managed }}
+// Ansible Managed: Changes made to this file will be overwritten without warning or notification.
 
 var cluster = require('cluster'),
   fs = require('fs'),
-  port = 30080;
+  qs = require('qs'),
+  port = 30080,
+  ansible,
+  body;
 
 function record_pidfile_at(pidfile_path) {
   try {
@@ -16,8 +19,16 @@ function record_pidfile_at(pidfile_path) {
   }
 }
 
+
+function pipeAnsible(response) {
+  ansible.stdout.pipe(response);
+  ansible.stdout.on('end', function() {
+    response.end('</pre>');
+  });
+}
+
 if (cluster.isMaster) {
-  record_pidfile_at('{{ autodeploy_pidfile_path }}');
+  record_pidfile_at('/data/deployment/listener.pid');
   cluster.on('exit', function(worker, code, signal) {
     cluster.fork();
   });
@@ -36,21 +47,19 @@ if (cluster.isMaster) {
           response.statusCode = 200;
           response.write('<pre>');
 
-          var post = qs.parse(body);
+          var payload = qs.parse(body)["undefinedpayload"];
+          var post = JSON.parse(payload);
 
           // if there is only one repository on this server, deploy the single project .yml file
           if (fs.existsSync('/data/deployment/deploy.key')) {
-            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/deploy.yml"]);
+           ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/deploy.yml"]);
+           pipeAnsible(response);
           // else deploy the project specified by the github POST payload
           } else {
-            var playbook = post["repository"]["slug"] + '.yml';
-            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook]);
-          }
-
-          ansible.stdout.pipe(response);
-          ansible.stdout.on('end', function() {
-            response.end('</pre>');
-          })
+           var playbook = post["repository"]["name"] + '.yml';
+           ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook]);
+           pipeAnsible(response)
+         }
         });
       break;
       case 'GET':
@@ -61,10 +70,11 @@ if (cluster.isMaster) {
           // if no repository is specified on a GET, deploy all projects in /data/deployment
           case '/':
             fs.readdir('/data/deployment', function(err, files) {
-              if(err) console.log(err); 
+              if(err) console.log(err);
               files.filter(function(item) {
                 if(/\.yml/.test(item)) {
                   ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
+                  pipeAnsible(response);
                 }
               });
             })
@@ -72,12 +82,8 @@ if (cluster.isMaster) {
           // else deploy the project according to the specified URL
           default:
             ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
+            pipeAnsible(response);
         }
-
-        ansible.stdout.pipe(response);
-        ansible.stdout.on('end', function() {
-          response.end('</pre>');
-        });
       break;
     }
     
