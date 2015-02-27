@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Ansible Managed: Changes made to this file will be overwritten without warning or notification.
+// {{ ansible_managed }}
 
 var cluster = require('cluster'),
   fs = require('fs'),
@@ -28,7 +28,7 @@ function pipeAnsible(response) {
 }
 
 if (cluster.isMaster) {
-  record_pidfile_at('/data/deployment/listener.pid');
+  record_pidfile_at('{{ autodeploy_pidfile_path }}');
   cluster.on('exit', function(worker, code, signal) {
     cluster.fork();
   });
