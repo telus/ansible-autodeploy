@@ -25,7 +25,8 @@ function pipeAnsible(response) {
   ansible.stdout.on('end', function() {
     response.end('</pre>');
   });
-}
+};
+
 
 if (cluster.isMaster) {
   record_pidfile_at('{{ autodeploy_pidfile_path }}');
@@ -100,6 +101,7 @@ if (cluster.isMaster) {
           files.filter(function(item) {
             if(/\.yml/.test(item)) {
               ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/' + item]);
+              pipeAnsible(response);
             }
           });
         })
@@ -107,12 +109,8 @@ if (cluster.isMaster) {
       // else deploy the project according to the specified URL
       default:
         ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment' + request.url + '.yml']);
+        pipeAnsible(response);
     }
-
-    ansible.stdout.pipe(response);
-    ansible.stdout.on('end', function() {
-      response.end('</pre>');
-    });
 
 // {% endif %}
 
