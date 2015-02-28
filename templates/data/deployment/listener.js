@@ -51,16 +51,10 @@ if (cluster.isMaster) {
           var payload = qs.parse(body)["undefinedpayload"];
           var post = JSON.parse(payload);
 
-          // if there is only one repository on this server, deploy the single project .yml file
-          if (fs.existsSync('/data/deployment/deploy.key')) {
-           ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/deploy.yml"]);
-           pipeAnsible(response);
-          // else deploy the project specified by the github POST payload
-          } else {
-           var playbook = post["repository"]["name"] + '.yml';
-           ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook]);
-           pipeAnsible(response)
-         }
+          var playbook = post["repository"]["name"] + '.yml';
+          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + playbook]);
+          pipeAnsible(response);
+
         });
       break;
       case 'GET':
