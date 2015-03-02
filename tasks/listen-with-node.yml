@@ -15,7 +15,7 @@
     - directory-structure
     - runtime-data
 
-- name: Setup Automated Deployment | listener.js
+- name: Setup Automated Deployment | Listener
   template:
     src: "data/deployment/listener.js"
     dest: "/data/deployment/listener.js"
