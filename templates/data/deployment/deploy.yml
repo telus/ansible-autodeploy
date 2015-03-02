@@ -12,7 +12,7 @@
         path: "{{ autodeploy_external_asset_storage_destination }}"
 
 {% endif %}
-   - name: Fetch Application Code from git
+    - name: Fetch Application Code from git
       git:
         repo: "{{ autodeploy_repository_origin }}"
         accept_hostkey: yes
