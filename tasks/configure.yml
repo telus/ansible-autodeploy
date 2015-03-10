@@ -10,6 +10,7 @@
     - directory-structure
     - security-concern
     - deployment
+    - autodeploy
   with_items:
     - /var/www/.ssh
     - /data/deployment
@@ -26,12 +27,14 @@
   tags:
     - deployment
     - improves-security
+    - autodeploy
 
 - name: Get Instance ID
   shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
   register: instance_id
   tags:
     - hostname
+    - autodeploy
 
 - name: Setup Automated Deployment | Playbook
   template:
@@ -44,6 +47,7 @@
   tags:
     - deployment
     - using-ansible
+    - autodeploy
 
 - name: Configure | sudo | allow autodeploy to restart application
   lineinfile:
@@ -55,3 +59,4 @@
   when: autodeploy_restart_enabled
   tags:
     - sudo
+    - autodeploy

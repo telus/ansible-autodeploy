@@ -8,6 +8,7 @@
     - configuration
     - fragment-configuration
     - haproxy
+    - autodeploy
 
 - name: Assemble Config Fragments | haproxy
   assemble:
@@ -18,3 +19,4 @@
     - configuration
     - fragment-configuration
     - haproxy
+    - autodeploy

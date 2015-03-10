@@ -11,6 +11,7 @@
     - configuration
     - template-configuration
     - nginx
+    - autodeploy
 
 - name: Enable Config | nginx | Automated Deployment
   file:
@@ -22,3 +23,4 @@
     - configuration
     - enable-configuration
     - nginx
+    - autodeploy

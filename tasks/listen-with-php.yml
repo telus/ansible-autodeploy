@@ -11,6 +11,7 @@
   tags:
     - directory-structure
     - runtime-data
+    - autodeploy
 
 - name: Setup Automated Deployment | Listener
   template:
@@ -23,3 +24,4 @@
   tags:
     - security-concern
     - deployment
+    - autodeploy

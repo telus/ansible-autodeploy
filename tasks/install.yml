@@ -8,6 +8,7 @@
   tags:
     - software-installation
     - using-apt
+    - autodeploy
 
 - name: Install Packages | apt
   apt:
@@ -19,6 +20,7 @@
   tags:
     - software-installation
     - using-apt
+    - autodeploy
 
 - name: Install Packages | npm
   npm:
@@ -28,9 +30,13 @@
   with_items:
     - forever
   when: autodeploy_listener == 'node'
+  tags:
+    - autodeploy
 
 - name: Install Packages | bundler
   gem:
     state: latest
     name: bundler
   when: autodeploy_for_ruby
+  tags:
+    - autodeploy

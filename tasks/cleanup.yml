@@ -11,3 +11,5 @@
     - /etc/monit/conf.d/webhook-listener
     - /etc/nginx/sites-available/webhooks.conf
     - /etc/nginx/sites-enabled/webhooks
+  tags:
+    - autodeploy

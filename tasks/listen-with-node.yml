@@ -14,6 +14,7 @@
   tags:
     - directory-structure
     - runtime-data
+    - autodeploy
 
 - name: Setup Automated Deployment | Listener
   template:
@@ -26,6 +27,7 @@
   tags:
     - security-concern
     - deployment
+    - autodeploy
 
 - name: Setup Automated Deployment | package.json
   template:
@@ -38,11 +40,14 @@
   tags:
     - security-concern
     - deployment
+    - autodeploy
 
 - name: Update Dependencies | npm
   npm:
     state: latest
     path: /data/deployment
+  tags:
+    - autodeploy
 
 - name: Upload Config | monit | autodeploy
   template:
@@ -51,6 +56,7 @@
   notify: Reload Service | monit
   tags:
     - using-monit
+    - autodeploy
 
 - name: Trigger All Callbacks
   meta: flush_handlers
