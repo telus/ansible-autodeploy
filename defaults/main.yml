@@ -41,8 +41,8 @@ autodeploy_for_node: no
 autodeploy_for_ruby: no
 autodeploy_restart_enabled: no
 
-autodeploy_dynamic_deploy: no
-autodeploy_initial_deploy: no
+autodeploy_dynamic_deploy_enabled: no
+autodeploy_dynamic_deploy_repo_names: []
 
 autodeploy_database_engine: mysql-compatible
 
