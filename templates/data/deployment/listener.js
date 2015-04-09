@@ -3,8 +3,7 @@
 // {{ ansible_managed }}
 
 var cluster = require('cluster'),
-  fs = require('fs'),
-  qs = require('qs'),
+  queryString = require('qs'),
   port = 30080;
 
 function record_pidfile_at(pidfile_path) {
@@ -17,6 +16,13 @@ function record_pidfile_at(pidfile_path) {
   }
 }
 
+function stdoutAnsible(response) {
+  ansible.stdout.pipe(response);
+  ansible.stdout.on('end', function() {
+    response.end('</pre>');
+  });
+}
+
 if (cluster.isMaster) {
   record_pidfile_at('{{ autodeploy_pidfile_path }}');
   cluster.on('exit', function(worker, code, signal) {
@@ -26,7 +32,7 @@ if (cluster.isMaster) {
 } else {
   require('http').createServer(function(request, response) {
 
-// {% if autodeploy_dynamic_deploy_enabled %}
+// {% if autodeploy_dynamic_deploy_repo_names %}
 
   switch (request.method) {
     case 'POST':
@@ -38,7 +44,7 @@ if (cluster.isMaster) {
         response.statusCode = 200;
         response.write('<pre>');
 
-        var payload = qs.parse(body)["undefinedpayload"];
+        var payload = queryString.parse(body)["undefinedpayload"];
         var post = JSON.parse(payload);
 
         var repo = post["repository"]["name"];
@@ -47,11 +53,8 @@ if (cluster.isMaster) {
       // {% for repo in autodeploy_dynamic_deploy_repo_names %}   
 
           case '{{ repo }}':
-            var ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/{{ repo }}.yml"]);
-            ansible.stdout.pipe(response);
-            ansible.stdout.on('end', function() {
-              response.end('</pre>');
-            });
+            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/{{ repo }}.yml"]);
+            stdoutAnsible(response);
           break;
 
       // {% endfor%}
@@ -60,39 +63,8 @@ if (cluster.isMaster) {
       });
     break;
     case 'GET':
-      response.statusCode = 200;
-      response.write('<pre>');
-
-      switch(request.url) {
-        case '/':
-          var arr = [];
-          fs.readdir('/data/deployment', function(err, files) {
-            files.filter(function(item) {
-              if(/\.yml/.test(item)) {
-                arr.push(item);
-              }
-            })
-            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', arr);
-            ansible.stdout.pipe(response);
-            ansible.stdout.on('end', function() {
-              response.end('</pre>');
-            });
-          })
-          break;
-
-      // {% for repo in autodeploy_dynamic_deploy_repo_names %}
-
-        case '/{{ repo }}':
-          ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/{{ repo }}.yml"]);
-          ansible.stdout.pipe(response);
-          ansible.stdout.on('end', function() {
-            response.end('</pre>');
-          });
-          break;
-
-      // {% endfor%}
-
-      }
+      response.statusCode = 405;
+      response.end();
     break;
   }
   
@@ -101,10 +73,7 @@ if (cluster.isMaster) {
   response.statusCode = 200;
   response.write('<pre>');
   ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/deploy.yml']);
-  ansible.stdout.pipe(response);
-  ansible.stdout.on('end', function() {
-    response.end('</pre>');
-  })
+  stdoutAnsible(response)
 
 // {% endif %}
 
