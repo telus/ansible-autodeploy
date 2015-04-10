@@ -62,7 +62,7 @@ if (cluster.isMaster) {
         }
       });
     break;
-    case 'GET':
+    default:
       response.statusCode = 405;
       response.end();
     break;
