@@ -133,6 +133,15 @@
       environment:
         HOME: "/var/www"
 {% endif %}
+{% if autodeploy_for_bower %}
+
+    - name: Update Dependencies | bower
+      bower:
+        state: latest
+        path: "{{ autodeploy_docroot }}"
+      environment:
+        HOME: "/var/www"
+{% endif %}
 {% if autodeploy_for_ruby %}
 
     - name: Update Dependencies | Bundler
