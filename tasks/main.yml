@@ -6,3 +6,5 @@
   when: autodeploy_listener == 'php'
 - include: listen-with-node.yml
   when: autodeploy_listener == 'node'
+- include: listen-with-sweatshop.yml
+  when: autodeploy_listener == 'sweatshop'

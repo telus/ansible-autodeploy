@@ -1,0 +1,9 @@
+---
+branch_whitelist:
+- {{ autodeploy_repository_branch }}
+
+commands:
+- "ansible-playbook /data/deployment/deploy.yml"
+
+environment:
+  WORLD: Earth
