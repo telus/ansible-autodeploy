@@ -11,21 +11,13 @@ dependencies:
     when: "autodeploy_database_engine == 'mysql-compatible' and autodeploy_database_bundled"
   - role: package/nodejs
     when: autodeploy_listener == 'node'
-  # - role: package/upstart
-  #   upstart_name: autodeploy
-  #   upstart_exec_path: "/usr/bin/node /data/deployment/listener.js"
-  #   when: autodeploy_listener == 'node'
+  - role: package/upstart
+    upstart_name: autodeploy
+    upstart_exec_path: "/usr/bin/node /data/deployment/listener.js"
+    when: autodeploy_listener == 'node'
+  - role: package/php
+    when: autodeploy_listener == 'php'
   - role: package/python
     python_legacy_support: yes
     python_packages:
       - ansible
-  # - role: package/upstart
-  #   upstart_name: initial_deploy
-  #   upstart_description: 'Initial deploy of all code repos'
-  #   upstart_group: "{{ autodeploy_group }}"
-  #   upstart_user: "{{ autodeploy_user }}"
-  #   upstart_exec_path: curl http://localhost:81
-  #   upstart_log_root: /var/log/autodeploy
-  #   upstart_pidfile_path: "{{ autodeploy_pidfile_path }}"
-  #   upstart_runtime_root: "{{ autodeploy_runtime_root }}"
-  #   when: autodeploy_initial_deploy
