@@ -36,7 +36,7 @@ if (cluster.isMaster) {
 
   switch (request.method) {
     case 'POST':
-      var body;
+      var body = "";
       request.on('data', function (data) {
         body += data
       });
@@ -44,10 +44,10 @@ if (cluster.isMaster) {
         response.statusCode = 200;
         response.write('<pre>');
 
-        var payload = queryString.parse(body)["undefinedpayload"];
-        var post = JSON.parse(payload);
+        var post = queryString.parse(body);
+        var payload = JSON.parse(post["payload"]);
+        var repo = payload["repository"]["slug"];
 
-        var repo = post["repository"]["name"];
         switch(repo){
 
       // {% for repo in autodeploy_dynamic_deploy_repo_names %}   
