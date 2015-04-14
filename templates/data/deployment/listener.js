@@ -17,7 +17,7 @@ function record_pidfile_at(pidfile_path) {
 }
 
 function printAnsible(response, repo) {
-  ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + repo + ".yml"]);
+  var ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + repo + ".yml"]);
   ansible.stdout.pipe(response);
   ansible.stdout.on('end', function() {
     response.end('</pre>');
