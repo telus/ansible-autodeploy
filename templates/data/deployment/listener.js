@@ -16,7 +16,8 @@ function record_pidfile_at(pidfile_path) {
   }
 }
 
-function stdoutAnsible(response) {
+function printAnsible(response, repo) {
+  ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/" + repo + ".yml"]);
   ansible.stdout.pipe(response);
   ansible.stdout.on('end', function() {
     response.end('</pre>');
@@ -53,27 +54,24 @@ if (cluster.isMaster) {
       // {% for repo in autodeploy_dynamic_deploy_repo_names %}   
 
           case '{{ repo }}':
-            ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ["/data/deployment/{{ repo }}.yml"]);
-            stdoutAnsible(response);
-          break;
+            printAnsible(response, '{{ repo }}');
+            break;
 
       // {% endfor%}
 
         }
       });
-    break;
+      break;
     default:
       response.statusCode = 405;
       response.end();
-    break;
   }
   
 // {% else %}
 
   response.statusCode = 200;
   response.write('<pre>');
-  ansible = require('child_process').spawn('/usr/local/bin/ansible-playbook', ['/data/deployment/deploy.yml']);
-  stdoutAnsible(response)
+  printAnsible(response, 'deploy')
 
 // {% endif %}
 
