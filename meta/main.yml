@@ -15,6 +15,8 @@ dependencies:
     upstart_name: autodeploy
     upstart_exec_path: "/usr/bin/node /data/deployment/listener.js"
     when: autodeploy_listener == 'node'
+  - role: package/php
+    when: autodeploy_listener == 'php'
   - role: package/python
     python_legacy_support: yes
     python_packages:

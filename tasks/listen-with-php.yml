@@ -20,7 +20,6 @@
     owner: "{{ autodeploy_user }}"
     group: www-data
     mode: 0444
-  when: autodeploy_using_standard_playbook
   tags:
     - security-concern
     - deployment
