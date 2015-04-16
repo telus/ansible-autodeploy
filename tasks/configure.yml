@@ -54,7 +54,7 @@
     state: present
     dest: /etc/sudoers
     regexp: "^{{ autodeploy_user }}"
-    line: "{{ autodeploy_user }} ALL = NOPASSWD : /usr/bin/monit restart {{ autodeploy_restart_target }}"
+    line: "{{ autodeploy_user }} ALL = NOPASSWD : /usr/bin/service {{ autodeploy_restart_target }} restart"
     validate: 'visudo -cf %s'
   when: autodeploy_restart_enabled
   tags:
