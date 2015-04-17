@@ -7,7 +7,7 @@
 - name: "Directory Exists | {{ autodeploy_listener_docroot }}"
   file:
     state: directory
-    path: "{{ autodeploy_listener_docroot }}/autodeploy.yml"
+    path: "{{ autodeploy_listener_docroot }}/"
     owner: "{{ autodeploy_user }}"
     group: wcadmin
     mode: 0775
@@ -19,7 +19,7 @@
 - name: Setup Automated Deployment | Create Autodeploy Job
   template:
     src: etc/sweatshop/jobs/autodeploy.yml
-    dest: "{{ autodeploy_listener_docroot }}/autodeploy.yml/"
+    dest: "{{ autodeploy_listener_docroot }}/autodeploy.yml"
     owner: "{{ autodeploy_user }}"
     group: www-data
     mode: 0444
