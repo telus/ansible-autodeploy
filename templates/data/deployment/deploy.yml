@@ -173,7 +173,7 @@
 {% if autodeploy_restart_enabled %}
 
     - name: Restart Application
-      command: "sudo monit restart {{ autodeploy_restart_target | mandatory }}"
+      command: "sudo service {{ autodeploy_restart_target | mandatory }} restart"
 {% endif %}
 
 {% if autodeploy_slack_notifications_enabled %}

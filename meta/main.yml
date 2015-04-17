@@ -17,6 +17,7 @@ dependencies:
     when: autodeploy_listener == 'node'
   - role: package/php
     when: autodeploy_listener == 'php'
+  - role: package/robot_sweatshop
   - role: package/python
     python_legacy_support: yes
     python_packages:
