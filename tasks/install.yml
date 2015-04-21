@@ -40,11 +40,3 @@
   when: autodeploy_for_ruby
   tags:
     - autodeploy
-
-- name: Install Packages | robot_sweatshop
-  gem:
-    state: latest
-    name: robot_sweatshop
-  when: autodeploy_listener == 'sweatshop'
-  tags:
-    - autodeploy
