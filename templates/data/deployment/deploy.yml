@@ -136,11 +136,11 @@
 {% if autodeploy_for_bower %}
 
     - name: Update Dependencies | bower
+      sudo: True
+      sudo_user: www-data
       bower:
-        state: latest
         path: "{{ autodeploy_docroot }}"
-      environment:
-        HOME: "/var/www"
+        state: latest
 {% endif %}
 {% if autodeploy_for_ruby %}
 
