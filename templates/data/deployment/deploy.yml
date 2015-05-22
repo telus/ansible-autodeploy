@@ -168,6 +168,8 @@
 
     - name: Post Deployment Command | {{ post_deployment_command }}
       shell: "cd {{ autodeploy_docroot }} && {{ post_deployment_command }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 {% endfor %}
 
 {% if autodeploy_restart_enabled %}
