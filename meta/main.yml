@@ -17,7 +17,7 @@ galaxy_info:
 dependencies:
   - role: telusdigital.slack
     slack_dry_run: yes
-  - role: telusdigital.ansible
+  - role: telusdigital.yo-dawg
   - role: telusdigital.postgres
     postgres_client: yes
     when: "autodeploy_database_engine == 'postgres' and autodeploy_database_bundled"
