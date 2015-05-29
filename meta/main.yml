@@ -20,7 +20,7 @@ dependencies:
   - role: telusdigital.yo-dawg
   - role: telusdigital.postgresql
     postgresql_client: yes
-    when: "autodeploy_database_engine == 'postgresql' and autodeploy_database_bundled"
+    when: "autodeploy_database_engine == 'postgres' and autodeploy_database_bundled"
   - role: telusdigital.mariadb
     mariadb_client: yes
     when: "autodeploy_database_engine == 'mysql-compatible' and autodeploy_database_bundled"
