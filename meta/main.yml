@@ -18,8 +18,8 @@ dependencies:
   - role: telusdigital.slack
     slack_dry_run: yes
   - role: telusdigital.yo-dawg
-  - role: telusdigital.postgres
-    postgres_client: yes
+  - role: telusdigital.postgresql
+    postgresql_client: yes
     when: "autodeploy_database_engine == 'postgres' and autodeploy_database_bundled"
   - role: telusdigital.mariadb
     mariadb_client: yes
@@ -32,7 +32,7 @@ dependencies:
     when: autodeploy_listener == 'node'
   - role: telusdigital.php
     when: autodeploy_listener == 'php'
-  - role: telusdigital.robot_sweatshop
+  - role: telusdigital.robot-sweatshop
     when: autodeploy_listener == 'robot_sweatshop'
   - role: telusdigital.python
     python_legacy_support: yes
