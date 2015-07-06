@@ -49,14 +49,5 @@
   tags:
     - autodeploy
 
-- name: Upload Config | monit | autodeploy
-  template:
-    src: etc/monit/conf.d/autodeploy
-    dest: /etc/monit/conf.d/autodeploy
-  notify: Reload Service | monit
-  tags:
-    - using-monit
-    - autodeploy
-
 - name: Trigger All Callbacks
   meta: flush_handlers
