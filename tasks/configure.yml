@@ -4,7 +4,7 @@
     state: directory
     path: "{{ item }}"
     owner: "{{ autodeploy_user }}"
-    group: wcadmin
+    group: staff
     mode: 0750
   tags:
     - directory-structure
@@ -41,7 +41,7 @@
     src: data/deployment/deploy.yml
     dest: /data/deployment/deploy.yml
     owner: root
-    group: wcadmin
+    group: staff
     mode: 0444
   when: autodeploy_using_standard_playbook
   tags:

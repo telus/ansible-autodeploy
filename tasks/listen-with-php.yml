@@ -6,7 +6,7 @@
     state: directory
     path: "{{ autodeploy_listener_docroot }}"
     owner: "{{ autodeploy_user }}"
-    group: wcadmin
+    group: staff
     mode: 0775
   tags:
     - directory-structure

@@ -9,7 +9,7 @@
     state: directory
     path: "{{ autodeploy_runtime_root }}"
     owner: "{{ autodeploy_user }}"
-    group: wcadmin
+    group: staff
     mode: 0775
   tags:
     - directory-structure
@@ -21,7 +21,7 @@
     src: "data/deployment/listener.js"
     dest: "/data/deployment/listener.js"
     owner: www-data
-    group: wcadmin
+    group: staff
     mode: 0460
   when: autodeploy_listener == 'node'
   tags:
@@ -34,7 +34,7 @@
     src: "data/deployment/package.json"
     dest: "/data/deployment/package.json"
     owner: www-data
-    group: wcadmin
+    group: staff
     mode: 0460
   when: autodeploy_listener == 'node'
   tags:

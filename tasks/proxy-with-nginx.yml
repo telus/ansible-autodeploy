@@ -4,7 +4,7 @@
     src: etc/nginx/sites-available/deployment.conf
     dest: /etc/nginx/sites-available/deployment.conf
     owner: root
-    group: wcadmin
+    group: staff
     mode: 0664
   notify: Reload Service | nginx
   tags:
