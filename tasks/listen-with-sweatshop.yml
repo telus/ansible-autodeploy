@@ -9,7 +9,7 @@
     state: directory
     path: "{{ autodeploy_listener_docroot }}/"
     owner: "{{ autodeploy_user }}"
-    group: staff
+    group: "{{ autodeploy_group }}"
     mode: 0775
   tags:
     - directory-structure
@@ -21,7 +21,7 @@
     src: etc/sweatshop/jobs/autodeploy.yml
     dest: "{{ autodeploy_listener_docroot }}/autodeploy.yml"
     owner: "{{ autodeploy_user }}"
-    group: www-data
+    group: "{{ autodeploy_group }}"
     mode: 0444
   tags:
     - security-concern

@@ -6,7 +6,7 @@
     state: directory
     path: "{{ autodeploy_listener_docroot }}"
     owner: "{{ autodeploy_user }}"
-    group: staff
+    group: "{{ autodeploy_group }}"
     mode: 0775
   tags:
     - directory-structure
@@ -18,7 +18,7 @@
     src: data/deployment/listener/index.php
     dest: "{{ autodeploy_listener_docroot }}/index.php"
     owner: "{{ autodeploy_user }}"
-    group: www-data
+    group: "{{ autodeploy_group }}"
     mode: 0444
   tags:
     - security-concern
