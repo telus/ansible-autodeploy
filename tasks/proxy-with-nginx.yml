@@ -3,8 +3,8 @@
   template:
     src: etc/nginx/sites-available/deployment.conf
     dest: /etc/nginx/sites-available/deployment.conf
-    owner: root
-    group: wcadmin
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
     mode: 0664
   notify: Reload Service | nginx
   tags:

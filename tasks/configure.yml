@@ -4,7 +4,7 @@
     state: directory
     path: "{{ item }}"
     owner: "{{ autodeploy_user }}"
-    group: wcadmin
+    group: "{{ autodeploy_group }}"
     mode: 0750
   tags:
     - directory-structure
@@ -20,8 +20,8 @@
   template:
     src: data/deployment/deploy.key
     dest: /data/deployment/deploy.key
-    owner: www-data
-    group: www-data
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
     mode: 0400
   when: deployment_private_key
   tags:
@@ -40,8 +40,8 @@
   template:
     src: data/deployment/deploy.yml
     dest: /data/deployment/deploy.yml
-    owner: root
-    group: wcadmin
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
     mode: 0444
   when: autodeploy_using_standard_playbook
   tags:
