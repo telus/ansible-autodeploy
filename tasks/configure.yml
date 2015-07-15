@@ -49,6 +49,19 @@
     - using-ansible
     - autodeploy
 
+- name: Setup Automated Deployment | Hosts
+  template:
+    src: data/deployment/hosts
+    dest: /data/deployment/hosts
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0444
+  when: autodeploy_using_standard_playbook
+  tags:
+    - deployment
+    - using-ansible
+    - autodeploy
+
 - name: Configure | sudo | allow autodeploy to restart application
   lineinfile:
     state: present
