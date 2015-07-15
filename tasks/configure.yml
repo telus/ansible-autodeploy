@@ -5,7 +5,7 @@
     path: "{{ item }}"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
-    mode: 0750
+    mode: 0755
   tags:
     - directory-structure
     - security-concern
@@ -40,6 +40,19 @@
   template:
     src: data/deployment/deploy.yml
     dest: /data/deployment/deploy.yml
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0444
+  when: autodeploy_using_standard_playbook
+  tags:
+    - deployment
+    - using-ansible
+    - autodeploy
+
+- name: Setup Automated Deployment | Hosts
+  template:
+    src: data/deployment/hosts
+    dest: /data/deployment/hosts
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0444

@@ -3,7 +3,7 @@
 // {% if autodeploy_dynamic_deploy_repo_names %}
 
 function ansibleExec(repo) {
-  echo shell_exec('/usr/local/bin/ansible-playbook /data/deployment/'.repo.'.yml');
+  echo shell_exec('/usr/local/bin/ansible-playbook /data/deployment/'.repo.'.yml -i /data/deployment/hosts');
 }
 
 // {% endif %}
@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 //   {% else %}
 
-  echo shell_exec('/usr/local/bin/ansible-playbook /data/deployment/deploy.yml');
+  echo shell_exec('/usr/local/bin/ansible-playbook /data/deployment/deploy.yml -i /data/deployment/hosts');
 
 //   {% endif %}
 
