@@ -29,7 +29,7 @@ dependencies:
     upstart_name: autodeploy
     upstart_exec_path: "/usr/bin/node /data/deployment/listener.js"
     when: autodeploy_listener == 'node'
-  - role: telusdigital.php
+  - role: kkwoker.php
     when: autodeploy_listener == 'php'
   - role: telusdigital.robot-sweatshop
     when: autodeploy_listener == 'robot_sweatshop'
