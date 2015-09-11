@@ -31,8 +31,6 @@ dependencies:
     when: autodeploy_listener == 'node'
   - role: kkwoker.php
     when: autodeploy_listener == 'php'
-  - role: telusdigital.robot-sweatshop
-    when: autodeploy_listener == 'robot_sweatshop'
   - role: telusdigital.python
     python_legacy_support: yes
     python_packages:
