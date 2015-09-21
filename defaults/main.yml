@@ -17,6 +17,7 @@ autodeploy_database_bundled: no
 autodeploy_database_compressed: no
 autodeploy_database_file: import.sql
 autodeploy_database_file_compressed: "{{ autodeploy_database_file }}.zip"
+autodeploy_database_loadbalanced: no
 
 autodeploy_for_wordpress: no
 autodeploy_wordpress_config_path: "{{ autodeploy_docroot }}/wp-config.php"
