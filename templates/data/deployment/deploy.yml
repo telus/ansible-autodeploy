@@ -63,7 +63,7 @@
         line: "{{ '{{ item.line }}' }}"
       with_items:
         - regexp: "'DB_HOST'"
-          line: "define('DB_HOST', 'database.{{ project }}-{{ environment_tier }}.{{ domain }}');"
+          line: "define('DB_HOST', 'database{% if autodeploy_database_loadbalanced %}-direct{% endif %}.{{ project }}-{{ environment_tier }}.{{ domain }}');"
         - regexp: DB_NAME
           line: "define('DB_NAME', '{{ database_name | default(project) }}');"
         - regexp: DB_USER
