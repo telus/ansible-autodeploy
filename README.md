@@ -1,16 +1,76 @@
 # ansible-autodeploy
 
-Simple deployment tool
+Simple deployment tool with git hooks 
 
 [![Platforms](http://img.shields.io/badge/platforms-ubuntu-lightgrey.svg?style=flat)](#)
 
 Tunables
 --------
-* tbd
+* `autodeploy_runtime_root` (string) - The runtime root
+* `autodeploy_pidfile_path` (string) - The pidfile path
+
+* `autodeploy_repository_origin` (string) - The repository origin
+* `autodeploy_repository_branch`(string) - The repository branch
+* `autodeploy_docroot` (string) - The path to deploy into
+* `autodeploy_key` (string) - The path for the private deployment key
+
+* `autodeploy_user` (string) - User to run tomcat as
+* `autodeploy_group` (string) - Group to run tomcat as 
+
+* `autodeploy_listener_docroot` (string) - Where the autodeploy listener is locate (Listener.js for node, index.php for php)
+
+* `autodeploy_using_standard_playbook` (boolean) - Use ansible generated deployment playbook, or nah?
+
+* `autodeploy_database_bundled` (boolean) - Is your database in version control?
+* `autodeploy_database_compressed` (boolean) - Is your database compressed?
+* `autodeploy_database_file` (string) - The name of the database file
+* `autodeploy_database_file_compressed` (string) - The name of the compressed database file
+* `autodeploy_database_load_balanced` (boolean) - Is your database load balanced?
+
+* `autodeploy_for_wordpress` (boolean) - Are you deploying a wordpress site?
+* `autodeploy_wordpress_config_path` (string) - The location of your worpress config file
+* 
+* `autodeploy_rewrite_enabled` (boolean) - 
+* `autodeploy_rewrite_replace` (string) -
+* `autodeploy_rewrite_files` (list) -
+ 
+* `autodeploy_insert_enabled` (boolean) - 
+* `autodeploy_insert` (list) -
+
+* `autodeploy_external_asset_storage_enabled` (boolean) - Are you grabbing some assets from an external source?
+* `autodeploy_external_asset_storage_source` (string) - The local mount point for the external assets 
+* `autodeploy_external_asset_storage_destination` (string) - The path to write out external assets
+
+* `autodeploy_listener` (string) - The listener to use [php, node]
+
+* `autodeploy_for_node` (boolean) - Are you autodeploying a node app with dependencies? 
+* `autodeploy_for_bower` (boolean) - Are you autodeploying a project with bower? 
+* `autodeploy_for_ruby` (boolean) - Are you autodeploying a ruby app with dependencies? 
+* `autodeploy_restart_enabled` (boolean) - Allow autodeploy to restart system services
+
+* `autodeploy_dynamic_deploy_repo_names` (list) - 
+
+* `autodeploy_database_engine` (string) - 
+
+* `autodeploy_proxy_method` (string) - The proxy to autodeploy with [nginx, haproxy]
+
+* `autodeploy_slack_notifications_enabled` (boolean) - Are you notifying of deployments via slack?
+* `autodeploy_slack_domain` (string) - The slack domain
+* `autodeploy_slack_channel` (string) - The slack channel
+
+* `autodeploy_compass_enabled` (boolean) - Are you using compass?
+* `autodeploy_compass_root` (string) - The compass root
+* `autodeploy_requirejs_enabled` (boolean) - Are you using require.js?
+* `autodeploy_requirejs_fileglob` (string) - The glob of files to use with require.js
+* `autodeploy_composer_enabled` (boolean) - Are you using composer?
+* `autodeploy_composer_root` (string) - The composer root
+
+* `autodeploy_post_deployment_commands` (list) - Any shell commands to run after deployment
+* `deployment_private_key` (string) - The deployment private key to use for github/bitbucket
 
 Dependencies
 ------------
-* none
+* [telusdigital.yo-dawg](https://github.com/telusdigital/ansible-ansible/)
 
 Example Playbook
 ----------------
@@ -24,4 +84,9 @@ License
 
 Contributors
 ------------
-* Chris Olstrom
+* [Chris Olstrom](https://colstrom.github.io/) | [e-mail](mailto:chris@olstrom.com) | [Twitter](https://twitter.com/ChrisOlstrom)
+* Ben Visser
+* Steven Harradine
+* Aaron Pederson
+* Kinnan Kwok
+* Justin Scott
