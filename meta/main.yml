@@ -4,7 +4,7 @@ galaxy_info:
   categories:
     - development
   company: "TELUS digital"
-  description: "Simple deployment tool"
+  description: "Simple deployment tool with git hooks"
   license: MIT
   min_ansible_version: 1.6
   platforms:
@@ -17,6 +17,7 @@ galaxy_info:
 dependencies:
   - role: telusdigital.slack
     slack_dry_run: yes
+    when: autodeploy_slack_notifications_enabled
   - role: telusdigital.postgresql
     postgresql_client: yes
     when: "autodeploy_database_engine == 'postgres' and autodeploy_database_bundled"
@@ -33,4 +34,4 @@ dependencies:
     when: autodeploy_listener == 'php'
   - role: telusdigital.robot-sweatshop
     when: autodeploy_listener == 'robot_sweatshop'
-  - role: telusdigital.ansible
+  - role: telusdigital.yo-dawg
