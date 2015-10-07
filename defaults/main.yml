@@ -11,20 +11,19 @@ autodeploy_listener: php
 autodeploy_proxy_method: nginx
 
 autodeploy_using_standard_playbook: yes
-
 autodeploy_dynamic_deploy_repo_names: []
 autodeploy_post_deployment_commands: []
 
+# file manipulation
+autodeploy_insert_enabled: no
+autodeploy_insert:
+  - file: /data/www/docroot/environment.conf
+    contents: "{{ environment_tier }}"
 
 autodeploy_rewrite_enabled: no
 autodeploy_rewrite_replace: "application.{{ project }}-{{ environment_tier }}.{{ domain }}"
 autodeploy_rewrite_files:
   - "{{ autodeploy_docroot }}/{{ autodeploy_database_file }}"
-
-autodeploy_insert_enabled: no
-autodeploy_insert:
-  - file: /data/www/docroot/environment.conf
-    contents: "{{ environment_tier }}"
 
 # wordpress
 autodeploy_for_wordpress: no
