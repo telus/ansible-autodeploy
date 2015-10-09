@@ -1,6 +1,6 @@
 # ansible-autodeploy
 
-Simple deployment tool with git hooks 
+Simple deployment tool with hooks 
 
 [![Platforms](http://img.shields.io/badge/platforms-ubuntu-lightgrey.svg?style=flat)](#)
 

@@ -4,7 +4,7 @@ galaxy_info:
   categories:
     - development
   company: "TELUS digital"
-  description: "Simple deployment tool with git hooks"
+  description: "Simple deployment tool with hooks"
   license: MIT
   min_ansible_version: 1.6
   platforms:
