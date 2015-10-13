@@ -4,7 +4,7 @@ galaxy_info:
   categories:
     - development
   company: "TELUS digital"
-  description: "Simple deployment tool"
+  description: "Simple deployment tool with hooks"
   license: MIT
   min_ansible_version: 1.6
   platforms:
@@ -17,7 +17,8 @@ galaxy_info:
 dependencies:
   - role: telusdigital.slack
     slack_dry_run: yes
-  - role: kkwoker.postgresql
+    when: autodeploy_slack_notifications_enabled
+  - role: telusdigital.postgresql
     postgresql_client: yes
     when: "autodeploy_database_engine == 'postgres' and autodeploy_database_bundled"
   - role: telusdigital.mariadb
