@@ -8,3 +8,7 @@
   when: autodeploy_listener == 'node'
 - include: listen-with-sweatshop.yml
   when: autodeploy_listener == 'sweatshop'
+
+- name: Invoke autodeploy
+  command: curl --data "" localhost:81
+  when: autodeploy_inital_deploy

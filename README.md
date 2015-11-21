@@ -6,7 +6,7 @@ Simple deployment tool
 
 Tunables
 --------
-* tbd
+`autodeploy_inital_deploy` (boolean) - Should autodeploy be invoked with running of the role
 
 Dependencies
 ------------

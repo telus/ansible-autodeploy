@@ -60,6 +60,8 @@ autodeploy_requirejs_fileglob: "{{ autodeploy_docroot }}/static/scripts/build/*.
 autodeploy_composer_enabled: no
 autodeploy_composer_root: "{{ autodeploy_docroot }}"
 
+autodeploy_inital_deploy: no
+
 autodeploy_post_deployment_commands: []
 
 deployment_private_key: ''
