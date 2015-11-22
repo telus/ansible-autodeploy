@@ -44,6 +44,7 @@
     group: "{{ autodeploy_group }}"
     mode: 0444
   when: autodeploy_using_standard_playbook
+  notify: Invoke autodeploy
   tags:
     - deployment
     - using-ansible
