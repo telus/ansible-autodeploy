@@ -7,4 +7,4 @@
 
 - name: Invoke autodeploy | output
   debug:
-    var: out.stdout
+    var: out.stdout_lines
