@@ -21,6 +21,8 @@ Tunables
 * `autodeploy_dynamic_deploy_repo_names` (list) - A list of projects to deploy on git POST hooks. 
 * `autodeploy_post_deployment_commands` (list) - Any shell commands to run after deployment.
 
+* `autodeploy_inital_deploy` (boolean) - Should autodeploy be invoked when the template changes
+
  #### file manipulation
 
 * `autodeploy_insert_enabled` (boolean) - Insert data into files?
@@ -67,8 +69,6 @@ Tunables
 
 * `autodeploy_composer_enabled` (boolean) - Are you using composer?
 * `autodeploy_composer_root` (string) - The composer root.
-
-* `autodeploy_inital_deploy` (boolean) - Should autodeploy be invoked with running of the role
 
 * `autodeploy_for_node` (boolean) - Are you autodeploying a node app with dependencies? 
 * `autodeploy_for_bower` (boolean) - Are you autodeploying a project with bower? 
