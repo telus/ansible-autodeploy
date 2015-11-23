@@ -21,6 +21,8 @@ Tunables
 * `autodeploy_dynamic_deploy_repo_names` (list) - A list of projects to deploy on git POST hooks. 
 * `autodeploy_post_deployment_commands` (list) - Any shell commands to run after deployment.
 
+* `autodeploy_inital_deploy` (boolean) - Should autodeploy be invoked when the template changes
+
  #### file manipulation
 
 * `autodeploy_insert_enabled` (boolean) - Insert data into files?

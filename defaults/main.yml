@@ -67,5 +67,7 @@ autodeploy_for_node: no
 autodeploy_for_bower: no
 autodeploy_for_ruby: no
 
+autodeploy_inital_deploy: no
+
 # private
 deployment_private_key: ''
