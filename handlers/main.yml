@@ -1,6 +1,6 @@
 ---
 - name: Invoke autodeploy
-  command: curl --data "" localhost:81
+  command: curl -X POST localhost:81
   when: autodeploy_inital_deploy
   register: out
   notify: Invoke autodeploy | output
