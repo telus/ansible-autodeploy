@@ -22,6 +22,7 @@ Tunables
 * `autodeploy_post_deployment_commands` (list) - Any shell commands to run after deployment.
 
 * `autodeploy_inital_deploy` (boolean) - Should autodeploy be invoked when the template changes
+* `autodeploy_deploy_on_reboot` (boolean) - Should autodeploy be invoked when the system is rebooted
 
  #### file manipulation
 
