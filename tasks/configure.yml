@@ -46,6 +46,7 @@
     name: Invoke autodeploy at reboot
     special_time: reboot
     job: /data/deployment/update-app-code.sh >> /data/log/update-app-code.log
+  when: autodeploy_deployment_on_reboot
 
 - name: Get Instance ID
   shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
