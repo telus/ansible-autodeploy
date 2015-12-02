@@ -36,7 +36,7 @@
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0775
-  when: autodeploy_deploy_on_reboot
+  when: autodeploy_deployment_on_reboot
   tags:
     - deployment
     - autodeploy

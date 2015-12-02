@@ -68,7 +68,7 @@ autodeploy_for_bower: no
 autodeploy_for_ruby: no
 
 autodeploy_inital_deploy: no
-autodeploy_deploy_on_reboot: no
+autodeploy_deployment_on_reboot: no
 
 # private
 deployment_private_key: ''
