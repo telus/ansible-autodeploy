@@ -2,7 +2,7 @@
 
 deploy_code ()
 {
-  echo 'deploying code'
+  echo -n 'trying to deploying code '
   is_autodeploy_up=`netstat -lnt | grep ":81 " | wc -l`
   
   if [ $is_autodeploy_up -ge 1 ]; then
