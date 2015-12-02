@@ -3,9 +3,9 @@
 deploy_code ()
 {
   echo 'deploying code'
-  autodeploy_up=`netstat -lnt | grep ":81 " | wc -l`
+  is_autodeploy_up=`netstat -lnt | grep ":81 " | wc -l`
   
-  if [ $autodeploy_up -ge 1 ]; then
+  if [ $is_autodeploy_up -ge 1 ]; then
     echo 'hit'
     curl --request POST localhost:81
   else
