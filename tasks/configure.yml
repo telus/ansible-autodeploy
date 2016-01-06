@@ -16,7 +16,7 @@
     - /data/deployment
     - "{{ autodeploy_docroot }}"
 
-- name: Upload Deployment Key
+- name: Upload Deployment Private Key
   template:
     src: data/deployment/deploy.key
     dest: /data/deployment/deploy.key
@@ -24,6 +24,19 @@
     group: "{{ autodeploy_group }}"
     mode: 0400
   when: deployment_private_key
+  tags:
+    - deployment
+    - improves-security
+    - autodeploy
+
+- name: Upload Deployment Public Key
+  template:
+    src: data/deployment/deploy.pub
+    dest: /data/deployment/deploy.pub
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0444
+  when: deployment_public_key
   tags:
     - deployment
     - improves-security
