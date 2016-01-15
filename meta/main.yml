@@ -32,6 +32,4 @@ dependencies:
     when: autodeploy_listener == 'node'
   - role: telusdigital.php
     when: autodeploy_listener == 'php'
-  - role: telusdigital.robot-sweatshop
-    when: autodeploy_listener == 'robot_sweatshop'
   - role: telusdigital.yo-dawg
