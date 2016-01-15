@@ -2,6 +2,7 @@
 
 Simple deployment tool with hooks
 
+[![Build Status](https://travis-ci.org/telusdigital/ansible-autodeploy.svg?branch=master)](https://travis-ci.org/telusdigital/ansible-autodeploy)
 [![Platforms](http://img.shields.io/badge/platforms-ubuntu-lightgrey.svg?style=flat)](#)
 
 Tunables
