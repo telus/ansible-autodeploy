@@ -1,7 +1,0 @@
----
-- hosts: localhost
-  remote_user: root
-  roles:
-    - role: ansible-autodeploy
-      deployment_private_key: derp
-      deployment_public_key: merp

@@ -22,13 +22,13 @@ install:
 
 script:
   # check syntax
-  - "ansible-playbook -i tests/inventory tests/$PLAYBOOK --syntax-check"
+  - "ansible-playbook -i test/inventory test/$PLAYBOOK --syntax-check"
 
   # initial run
-  - "ansible-playbook -i tests/inventory tests/$PLAYBOOK --connection=local --sudo"
+  - "ansible-playbook -i test/inventory test/$PLAYBOOK --connection=local --sudo"
 
   # check idempotence
-  - "ansible-playbook -i tests/inventory tests/$PLAYBOOK --connection=local --sudo"
+  - "ansible-playbook -i test/inventory test/$PLAYBOOK --connection=local --sudo"
 
   # confirm nginx installation
   - "curl localhost"
