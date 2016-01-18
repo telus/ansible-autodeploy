@@ -11,7 +11,8 @@ before_install:
 
 install:
   # install ansible
-  - sudo pip install ansible
+  ## TODO: REMOVE <2 once ansible 2.0 becomes more stable
+  - sudo pip install 'ansible<2'
 
   # configure ansible
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
