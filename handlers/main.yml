@@ -1,0 +1,10 @@
+---
+- name: Invoke autodeploy
+  command: curl --request POST localhost:81
+  when: autodeploy_inital_deployment
+  register: out
+  notify: Invoke autodeploy | output
+
+- name: Invoke autodeploy | output
+  debug:
+    var: out.stdout_lines

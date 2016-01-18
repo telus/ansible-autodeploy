@@ -14,7 +14,7 @@
 {% endif %}
     - name: Fetch Application Code from git
       git:
-        repo: "{{ autodeploy_repository_origin }}"
+        repo: "{{ autodeploy_repository_origin | mandatory }}"
         accept_hostkey: yes
         dest: "{{ autodeploy_docroot }}"
         key_file: "{{ autodeploy_key }}"
