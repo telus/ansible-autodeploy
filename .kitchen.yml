@@ -15,7 +15,7 @@ provisioner:
   # we require ruby to run our serverspec tests
   require_ruby_for_busser: true
   # list ansible galaxy requirements from meta/main.yml
-  requirements_path: requirements.txt
+  requirements_path: requirements.yml
 
 
 platforms:
