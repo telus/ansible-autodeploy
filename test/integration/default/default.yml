@@ -17,3 +17,4 @@
       deployment_public_key: |
         ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBFN/IZ+OmPQQDbSIgj65ePpxlbh/lom7sOnCaAjW6le travis-test
       environment_tier: development
+      project: travis
