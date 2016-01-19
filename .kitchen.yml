@@ -26,5 +26,5 @@ suites:
   - name: default
 
 # this is weird. we have to specify where ruby is installed
-verifier:
-  ruby_bindir: '/usr/bin'
+# verifier:
+#   ruby_bindir: '/usr/bin'
