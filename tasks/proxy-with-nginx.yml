@@ -1,4 +1,17 @@
 ---
+- name: Directories Exists | /etc/nginx/sites-available
+  file:
+    state: directory
+    path: /etc/nginx/sites-available
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0664
+  tags:
+    - directory-structure
+    - security-concern
+    - deployment
+    - autodeploy
+
 - name: Upload Config | nginx | Automated Deployment
   template:
     src: etc/nginx/sites-available/deployment.conf
