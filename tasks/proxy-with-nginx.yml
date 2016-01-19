@@ -1,11 +1,14 @@
 ---
-- name: Directories Exists | /etc/nginx/sites-available
+- name: Directories Exists | nginx
   file:
     state: directory
-    path: /etc/nginx/sites-available
+    path: "{{ item }}"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0664
+  with_items:
+    - /etc/nginx/sites-enabled
+    - /etc/nginx/sites-available
   tags:
     - directory-structure
     - security-concern
