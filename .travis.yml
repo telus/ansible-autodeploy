@@ -1,38 +1,12 @@
 ---
+rvm: 2.2
 sudo: required
-dist: trusty
-language: generic
-
-env:
-  - PLAYBOOK=test.yml
-
-before_install:
-  - sudo apt-get update -qq
+# docker is required to run tests
+services: docker
 
 install:
-  # install ansible
-  ## TODO: REMOVE <2 once ansible 2.0 becomes more stable
-  - sudo pip install 'ansible<2'
-
-  # configure ansible
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-
-  # install dependencies from meta/main.yml
-  - "read dependencies < <(cat meta/main.yml  | grep 'role:' | awk '{print $3}' | tr '\n' ' '); ansible-galaxy install $dependencies"
+  - bundle install
 
 script:
-  # check syntax
-  - "ansible-playbook -i test/inventory test/$PLAYBOOK --syntax-check"
-
-  # initial run
-  - "ansible-playbook -i test/inventory test/$PLAYBOOK --connection=local --sudo"
-
-  # check idempotence
-  - "ansible-playbook -i test/inventory test/$PLAYBOOK --connection=local --sudo"
-
-  # confirm nginx installation
-  - "curl localhost"
-
-notifications:
-  slack:
-    secure: Ds/aVzS7GRFAttNZ+6/zzEXBBcKyKNTlT/uRoFP8p1yrawTNCGN3I113iBacUMniA/oLlZEM/M9Rc6jDRAUmUZSGamA9xmH1e7EMa68F1UtRZqkMVmnDl5N3l0/Y4eDFdzJXSjoZmB3Lo3QciLgQhh90kaq8hYkRvkyvZq4GtGSnS0XLo/Ow8uLMEt4pHYpqlj1h5bAUo8NVgWytnW77t0URhXJjy7rzoTOYqJZpOoUhE2SpZU8sxDDXNlD2wMyLhHmQYpG3pq0taGBCzTN5WOd5UwoTJEU/dwpSWwsKerG2LGl9RmXMd2fUW1/v235RKSOJcN21wnVJb2VYsv3g/5tzILRhv7ptTGbFtsc043gtszMTpZ5miXYxEZLapOO6WYLwQ3YwumHrjgTOiPRtEZM3ZM8D9j6NE4q9pmcCA0ULQJWDCqodNlTNgzWiVFH/ZcRlWQbvuU61HqnJsrZ2qhvDWcPeB9Ow94F9If7mrT4173yKQbKmgwW7iXBf+Q6+EZIo+mkr4XJuPWSlIdILE23aEYaHyGQ5kZMtatc/Ti2qAiG0cK4bbm/jfvF62T6jUpfHMcWtISlkIv83CftEPyMPbWsOhvE78aUyU2VZ3xWBNGxmh7Bxk0sws6NhUFyBEh7qOI8gh1TQuqrXfB8yES8KwKKKfedXCZl76TccKco=
+  # run kitchen tests (destroy, create, converge, setup, verify and destroy)
+  - kitchen test

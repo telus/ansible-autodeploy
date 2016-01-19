@@ -1,0 +1,30 @@
+---
+driver:
+  # using docker to test
+  name: docker
+  privileged: true
+
+provisioner:
+  # use an ansible playbook to provision our server
+  name: ansible_playbook
+  # name of the host
+  hosts: test-kitchen
+  # we don't require chef
+  require_chef_omnibus: false
+  require_chef_for_busser: false
+  # we require ruby to run our serverspec tests
+  require_ruby_for_busser: true
+  # list ansible galaxy requirements from meta/main.yml
+  requirements_path: requirements.txt
+
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  # suites found at /test/integration/$test-name
+  - name: default
+
+# this is weird. we have to specify where ruby is installed
+verifier:
+  ruby_bindir: '/usr/bin'

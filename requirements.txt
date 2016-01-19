@@ -1,0 +1,8 @@
+telusdigital.slack
+telusdigital.postgresql
+telusdigital.mariadb
+telusdigital.nodejs
+telusdigital.upstart
+telusdigital.php
+telusdigital.robot-sweatshop
+telusdigital.yo-dawg

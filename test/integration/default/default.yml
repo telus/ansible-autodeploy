@@ -1,9 +1,11 @@
 ---
-- hosts: localhost
+# host to test against
+- hosts: test-kitchen
   remote_user: root
+
   roles:
+    # name of role to test
     - role: ansible-autodeploy
-      # DO NOT USE THESE KEYS. THEY ARE ONLY HERE FOR TESTING
       deployment_private_key: |
         -----BEGIN OPENSSH PRIVATE KEY-----
         b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
