@@ -9,3 +9,7 @@ install:
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
   - kitchen test
+
+notifications:
+  slack:
+    secure: GvTKdmzf/lxJ7TDzz5o1hidnpRjkc06czrwcBG/aGo8LUh9mRQwrZnSg28BLjsoBhGQ4Z9jeay88fgydmYve7x7rdL3qhFqVS/OVA97qEELNFjl55aQ3XLq559uvOrlhqEgpoF96SDvgKdxpU/KSvMR/og8R+eiTlO+1K8fnlbp4Sa6eXjTxNDPquIDHHHder7y6+jJq32fIefnLnxd+g3BHx0S4Xmn5Oqhn++p+JPu8XMCmX540yHbowXVbLkXQ/xYgI36XN7mNwwieDzBEH+jD2xsgGfWBpgqU4OUq7vXuQ3Zz74JhFOJZLAVeDtFQYRjdeGunh4ibrOdVQ8F4jMiYhPZH5r7MvDQ9xCjq2tUSHd4JAPi/QbRO5X4bhpopRLFojCUIqHpi/a8G8FZ/Hzk0riKDAMG7zM1sysc7bX12BpOip3v4GsPvnJ2clLhPwRS0PNSrEmnkvH9nD4jBYJUrzlCu0MbCiqbUdF7M8uOS6UJWiiMggxsnbP2YlW4iy2vQyAkdw/x5yeys9e4Toye3lyrOSJk2eaWegurlKZxVzuwPbp8kdoT6YrtpLL73i/mw/5qgUCWM0WXWRMuFe7ozIOC/s8ZY+T0JOJ7tpYpM5f8w/WTKParVcuMjDpgLCVn1LSUTNO+IZXPjjIKWUb8Dpb1zPSELu7tNV6qS/HU=
