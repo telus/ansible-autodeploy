@@ -1,9 +1,11 @@
 ---
-- hosts: localhost
+# host to test against
+- hosts: test-kitchen
   remote_user: root
+
   roles:
+    # name of role to test
     - role: ansible-autodeploy
-      # DO NOT USE THESE KEYS. THEY ARE ONLY HERE FOR TESTING
       deployment_private_key: |
         -----BEGIN OPENSSH PRIVATE KEY-----
         b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
@@ -14,5 +16,5 @@
         -----END OPENSSH PRIVATE KEY-----
       deployment_public_key: |
         ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBFN/IZ+OmPQQDbSIgj65ePpxlbh/lom7sOnCaAjW6le travis-test
-
-
+      environment_tier: development
+      project: travis

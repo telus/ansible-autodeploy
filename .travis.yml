@@ -1,38 +1,15 @@
 ---
 sudo: required
-dist: trusty
-language: generic
-
-env:
-  - PLAYBOOK=test.yml
-
-before_install:
-  - sudo apt-get update -qq
+# docker is required to run tests
+services: docker
 
 install:
-  # install ansible
-  ## TODO: REMOVE <2 once ansible 2.0 becomes more stable
-  - sudo pip install 'ansible<2'
-
-  # configure ansible
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-
-  # install dependencies from meta/main.yml
-  - "read dependencies < <(cat meta/main.yml  | grep 'role:' | awk '{print $3}' | tr '\n' ' '); ansible-galaxy install $dependencies"
+  - bundle install
 
 script:
-  # check syntax
-  - "ansible-playbook -i test/inventory test/$PLAYBOOK --syntax-check"
-
-  # initial run
-  - "ansible-playbook -i test/inventory test/$PLAYBOOK --connection=local --sudo"
-
-  # check idempotence
-  - "ansible-playbook -i test/inventory test/$PLAYBOOK --connection=local --sudo"
-
-  # confirm nginx installation
-  - "curl localhost"
+  # run kitchen tests (destroy, create, converge, setup, verify and destroy)
+  - kitchen test
 
 notifications:
   slack:
-    secure: Ds/aVzS7GRFAttNZ+6/zzEXBBcKyKNTlT/uRoFP8p1yrawTNCGN3I113iBacUMniA/oLlZEM/M9Rc6jDRAUmUZSGamA9xmH1e7EMa68F1UtRZqkMVmnDl5N3l0/Y4eDFdzJXSjoZmB3Lo3QciLgQhh90kaq8hYkRvkyvZq4GtGSnS0XLo/Ow8uLMEt4pHYpqlj1h5bAUo8NVgWytnW77t0URhXJjy7rzoTOYqJZpOoUhE2SpZU8sxDDXNlD2wMyLhHmQYpG3pq0taGBCzTN5WOd5UwoTJEU/dwpSWwsKerG2LGl9RmXMd2fUW1/v235RKSOJcN21wnVJb2VYsv3g/5tzILRhv7ptTGbFtsc043gtszMTpZ5miXYxEZLapOO6WYLwQ3YwumHrjgTOiPRtEZM3ZM8D9j6NE4q9pmcCA0ULQJWDCqodNlTNgzWiVFH/ZcRlWQbvuU61HqnJsrZ2qhvDWcPeB9Ow94F9If7mrT4173yKQbKmgwW7iXBf+Q6+EZIo+mkr4XJuPWSlIdILE23aEYaHyGQ5kZMtatc/Ti2qAiG0cK4bbm/jfvF62T6jUpfHMcWtISlkIv83CftEPyMPbWsOhvE78aUyU2VZ3xWBNGxmh7Bxk0sws6NhUFyBEh7qOI8gh1TQuqrXfB8yES8KwKKKfedXCZl76TccKco=
+    secure: GvTKdmzf/lxJ7TDzz5o1hidnpRjkc06czrwcBG/aGo8LUh9mRQwrZnSg28BLjsoBhGQ4Z9jeay88fgydmYve7x7rdL3qhFqVS/OVA97qEELNFjl55aQ3XLq559uvOrlhqEgpoF96SDvgKdxpU/KSvMR/og8R+eiTlO+1K8fnlbp4Sa6eXjTxNDPquIDHHHder7y6+jJq32fIefnLnxd+g3BHx0S4Xmn5Oqhn++p+JPu8XMCmX540yHbowXVbLkXQ/xYgI36XN7mNwwieDzBEH+jD2xsgGfWBpgqU4OUq7vXuQ3Zz74JhFOJZLAVeDtFQYRjdeGunh4ibrOdVQ8F4jMiYhPZH5r7MvDQ9xCjq2tUSHd4JAPi/QbRO5X4bhpopRLFojCUIqHpi/a8G8FZ/Hzk0riKDAMG7zM1sysc7bX12BpOip3v4GsPvnJ2clLhPwRS0PNSrEmnkvH9nD4jBYJUrzlCu0MbCiqbUdF7M8uOS6UJWiiMggxsnbP2YlW4iy2vQyAkdw/x5yeys9e4Toye3lyrOSJk2eaWegurlKZxVzuwPbp8kdoT6YrtpLL73i/mw/5qgUCWM0WXWRMuFe7ozIOC/s8ZY+T0JOJ7tpYpM5f8w/WTKParVcuMjDpgLCVn1LSUTNO+IZXPjjIKWUb8Dpb1zPSELu7tNV6qS/HU=

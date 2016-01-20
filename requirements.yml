@@ -1,0 +1,9 @@
+---
+- src: telusdigital.slack
+- src: telusdigital.postgresql
+- src: telusdigital.mariadb
+- src: telusdigital.nodejs
+- src: telusdigital.upstart
+- src: telusdigital.php
+- src: telusdigital.robot-sweatshop
+- src: telusdigital.yo-dawg
