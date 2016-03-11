@@ -3,7 +3,7 @@
   apt:
     state: latest
     pkg: "{{ item }}"
-  with_items: package_variants[autodeploy_database_engine]
+  with_items: '{{ package_variants[autodeploy_database_engine] }}'
   when: autodeploy_database_bundled
   tags:
     - software-installation
