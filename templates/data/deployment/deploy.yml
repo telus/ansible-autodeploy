@@ -194,7 +194,7 @@
         msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ system_role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
 {% endif %}
 
-{% if autodeploy_newrelic_notifications_enabled %}
+{% if autodeploy_newrelic_notifications_enabled && environment_tier == 'production' %}
     - name: Notify NewRelic
       uri:
         url: https://api.newrelic.com/deployments.xml
