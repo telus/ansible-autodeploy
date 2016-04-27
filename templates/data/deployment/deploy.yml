@@ -193,3 +193,14 @@
         token: "{{ slack_token | mandatory }}"
         msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ system_role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
 {% endif %}
+
+{% if autodeploy_newrelic_notifications_enabled %}
+    - name: Notify NewRelic
+      uri:
+        url: https://api.newrelic.com/deployments.xml
+        method: POST
+        headers:
+          x-api-key: "{{ newrelic_api_key }}"
+        body: "deployment[app_name]={{ autodeploy_newrelic_application_name }}"
+
+{% endif %}
