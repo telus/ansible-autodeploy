@@ -16,7 +16,7 @@
     - /data/deployment
     - "{{ autodeploy_docroot }}"
 
-- name: Upload Deployment Key
+- name: Upload Deployment Private Key
   template:
     src: data/deployment/deploy.key
     dest: /data/deployment/deploy.key
@@ -28,6 +28,38 @@
     - deployment
     - improves-security
     - autodeploy
+
+- name: Upload Deployment Public Key
+  template:
+    src: data/deployment/deploy.pub
+    dest: /data/deployment/deploy.pub
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0444
+  when: deployment_public_key
+  tags:
+    - deployment
+    - improves-security
+    - autodeploy
+
+- name: Upload reboot deployment script
+  template:
+    src: data/deployment/update-app-code.sh
+    dest: /data/deployment/update-app-code.sh
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0775
+  when: autodeploy_deployment_on_reboot
+  tags:
+    - deployment
+    - autodeploy
+
+- name: Create cron to run deployment script at reboot
+  cron:
+    name: Invoke autodeploy at reboot
+    special_time: reboot
+    job: /data/deployment/update-app-code.sh >> /data/log/update-app-code.log
+  when: autodeploy_deployment_on_reboot
 
 - name: Get Instance ID
   shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
@@ -44,6 +76,7 @@
     group: "{{ autodeploy_group }}"
     mode: 0444
   when: autodeploy_using_standard_playbook
+  notify: Invoke autodeploy
   tags:
     - deployment
     - using-ansible

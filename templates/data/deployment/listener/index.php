@@ -29,7 +29,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
 //   {% else %}
-
+  # Set PYTHONUNBUFFERED environment variable, so that the output from ansible isn't buffered
+  putenv("PYTHONUNBUFFERED=1");
   echo shell_exec('/usr/local/bin/ansible-playbook /data/deployment/deploy.yml -i /data/deployment/hosts');
 
 //   {% endif %}

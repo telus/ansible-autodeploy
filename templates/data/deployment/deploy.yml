@@ -2,7 +2,7 @@
 - connection: local
   hosts: localhost
   gather_facts: False
-  sudo_user: www-data
+  become_user: www-data
 
   tasks:
 {% if autodeploy_external_asset_storage_enabled %}
@@ -14,7 +14,7 @@
 {% endif %}
     - name: Fetch Application Code from git
       git:
-        repo: "{{ autodeploy_repository_origin }}"
+        repo: "{{ autodeploy_repository_origin | mandatory }}"
         accept_hostkey: yes
         dest: "{{ autodeploy_docroot }}"
         key_file: "{{ autodeploy_key }}"
