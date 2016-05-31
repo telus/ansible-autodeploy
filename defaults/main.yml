@@ -74,5 +74,6 @@ autodeploy_deployment_on_reboot: no
 deployment_private_key: ''
 deployment_public_key: ''
 
+autodeploy_listener_port: 81
 autodeploy_listener_addresses:
   - "*"
