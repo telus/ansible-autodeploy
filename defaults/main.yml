@@ -73,3 +73,6 @@ autodeploy_deployment_on_reboot: no
 # keys
 deployment_private_key: ''
 deployment_public_key: ''
+
+autodeploy_listener_addresses:
+  - "*"
