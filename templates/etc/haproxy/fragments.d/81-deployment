@@ -1,5 +1,7 @@
 frontend deployment-in
-  bind :81
+{% for address in autodeploy_listener_addresses %}
+  bind {{ address }}:{{ autodeploy_listener_port }}
+{% endfor %}
   default_backend listener
 
 backend listener
