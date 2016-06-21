@@ -1,0 +1,20 @@
+---
+# host to test against
+- hosts: test-kitchen
+  remote_user: root
+
+  roles:
+    # name of role to test
+    - role: ansible-autodeploy
+      deployment_private_key: |
+        -----BEGIN OPENSSH PRIVATE KEY-----
+        b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+        QyNTUxOQAAACARTfyGfjpj0EA20iII+uXj6cZW4f5aJu7DpwmgI1upXgAAAJAH9bABB/Ww
+        AQAAAAtzc2gtZWQyNTUxOQAAACARTfyGfjpj0EA20iII+uXj6cZW4f5aJu7DpwmgI1upXg
+        AAAEB13yNyVDx/NMu4h+6fm98B6VbUjelDeXNc7GMn6Uf3PBFN/IZ+OmPQQDbSIgj65ePp
+        xlbh/lom7sOnCaAjW6leAAAAC3RyYXZpcy10ZXN0AQI=
+        -----END OPENSSH PRIVATE KEY-----
+      deployment_public_key: |
+        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBFN/IZ+OmPQQDbSIgj65ePpxlbh/lom7sOnCaAjW6le travis-test
+      environment_tier: development
+      project: travis
