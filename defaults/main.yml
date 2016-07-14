@@ -56,6 +56,7 @@ autodeploy_slack_channel: "{{ project }}-ops"
 # newrelic
 autodeploy_newrelic_notifications_enabled: no
 autodeploy_newrelic_application_name: none
+autodeploy_newrelic_application_id: none
 
 # dependency management
 autodeploy_compass_enabled: no

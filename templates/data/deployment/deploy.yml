@@ -197,10 +197,13 @@
 {% if autodeploy_newrelic_notifications_enabled and environment_tier == 'production' %}
     - name: Notify NewRelic
       uri:
-        url: https://api.newrelic.com/deployments.xml
+        url: "https://api.newrelic.com/v2/applications/{{ autodeploy_newrelic_application_id }}/deployments.json"
         method: POST
+        status_code: 201
         headers:
           x-api-key: "{{ newrelic_api_key }}"
-        body: "deployment[app_name]={{ autodeploy_newrelic_application_name }}"
-
+        body_format: json
+        body:
+          deployment:
+            revision: "auto-deploy"
 {% endif %}
