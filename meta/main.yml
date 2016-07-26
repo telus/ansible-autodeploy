@@ -32,3 +32,5 @@ dependencies:
     when: autodeploy_listener == 'node'
   - role: telusdigital.php
     when: autodeploy_listener == 'php'
+  - role: telusdigital.php7
+    when: autodeploy_listener == 'php7'

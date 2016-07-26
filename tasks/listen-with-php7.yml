@@ -1,0 +1,26 @@
+---
+- include: proxy-with-nginx.yml
+
+- name: "Directory Exists | {{ autodeploy_runtime_root }}"
+  file:
+    state: directory
+    path: "{{ autodeploy_listener_docroot }}"
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0775
+  tags:
+    - directory-structure
+    - runtime-data
+    - autodeploy
+
+- name: Setup Automated Deployment | Listener
+  template:
+    src: data/deployment/listener/index.php
+    dest: "{{ autodeploy_listener_docroot }}/index.php"
+    owner: "{{ autodeploy_user }}"
+    group: "{{ autodeploy_group }}"
+    mode: 0444
+  tags:
+    - security-concern
+    - deployment
+    - autodeploy
