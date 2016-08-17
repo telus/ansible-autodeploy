@@ -8,6 +8,7 @@ autodeploy_listener_docroot: /data/deployment/listener
 autodeploy_restart_enabled: no
 
 autodeploy_listener: php
+autodeploy_php_version: 5
 autodeploy_proxy_method: nginx
 
 autodeploy_using_standard_playbook: yes
