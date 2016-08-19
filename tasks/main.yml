@@ -4,6 +4,8 @@
 - include: configure.yml
 - include: listen-with-php.yml
   when: autodeploy_listener == 'php'
+- include: listen-with-php7.yml
+  when: autodeploy_listener == 'php7'
 - include: listen-with-node.yml
   when: autodeploy_listener == 'node'
 - include: listen-with-sweatshop.yml
