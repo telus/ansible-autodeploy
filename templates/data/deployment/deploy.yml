@@ -180,9 +180,15 @@
 
 {% if autodeploy_slack_notifications_enabled %}
 
-    - name: Get Instance ID
-      shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
-      register: instance_id
+    - name: Get Hostname
+      shell: hostname
+      register: hostname
+      tags:
+        - hostname
+
+    - name: Get Private IP
+      shell: ip route get 8.8.8.8 | awk '{print $NF; exit}'
+      register: private_ip
       tags:
         - hostname
 
@@ -191,7 +197,8 @@
         domain: "{{ slack_domain }}"
         channel: "{{ slack_channel }}"
         token: "{{ slack_token | mandatory }}"
-        msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ system_role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
+        msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ '{{' }} hostname {{ '}}' }} ip: {{ '{{' }} private_ip {{ '}}' }}"
+      ignore_errors: yes
 {% endif %}
 
 {% if autodeploy_newrelic_notifications_enabled and environment_tier == 'production' %}
