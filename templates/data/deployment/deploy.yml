@@ -172,6 +172,14 @@
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 {% endfor %}
 
+{% for post_deployment_command in autodeploy_post_deployment_command_objects %}
+
+    - name: Post Deployment Command | {{ post_deployment_command.name }}
+      shell: "cd {{ autodeploy_docroot }} && {{ post_deployment_command.cmd }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% endfor %}
+
 {% if autodeploy_restart_enabled %}
 
     - name: Restart Application

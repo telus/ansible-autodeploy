@@ -13,6 +13,7 @@ autodeploy_proxy_method: nginx
 autodeploy_using_standard_playbook: yes
 autodeploy_dynamic_deploy_repo_names: []
 autodeploy_post_deployment_commands: []
+autodeploy_post_deployment_command_objects: []
 
 # file manipulation
 autodeploy_insert_enabled: no
