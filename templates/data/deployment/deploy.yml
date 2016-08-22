@@ -205,7 +205,7 @@
         domain: "{{ slack_domain }}"
         channel: "{{ slack_channel }}"
         token: "{{ slack_token | mandatory }}"
-        msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ '{{' }} hostname {{ '}}' }} ip: {{ '{{' }} private_ip {{ '}}' }}"
+        msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ '{{' }} hostname.stdout {{ '}}' }} ip: {{ '{{' }} private_ip.stdout {{ '}}' }}"
       ignore_errors: yes
 {% endif %}
 
