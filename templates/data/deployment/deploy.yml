@@ -19,7 +19,7 @@
         dest: "{{ autodeploy_docroot }}"
         key_file: "{{ autodeploy_key }}"
         update: yes
-        recursive: {{ autodeploy_repository_recursive }}
+        recursive: "{{ autodeploy_repository_recursive }}"
         force: yes
         version: "{{ autodeploy_repository_branch }}"
       environment:
