@@ -48,6 +48,7 @@ Tunables
 * `autodeploy_repository_branch`(string) - The repository branch.
 * `autodeploy_docroot` (string) - The path to deploy into.
 * `autodeploy_key` (string) - The path for the private deployment key.
+* `autodeploy_recursive` (boolean) - if no, repository will be cloned without the --recursive option, skipping sub-modules.
 
  #### database
 * `autodeploy_database_bundled` (boolean) - Is your database in version control?
