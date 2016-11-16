@@ -51,7 +51,7 @@ autodeploy_database_engine: mysql-compatible
 # slack
 autodeploy_slack_notifications_enabled: no
 autodeploy_slack_domain: telusdigital.slack.com
-autodeploy_slack_channel: "{{ project }}-ops"
+autodeploy_slack_channel: "{{ project }}-auto"
 
 # newrelic
 autodeploy_newrelic_notifications_enabled: no
