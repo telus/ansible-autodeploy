@@ -19,6 +19,7 @@
         dest: "{{ autodeploy_docroot }}"
         key_file: "{{ autodeploy_key }}"
         update: yes
+        recursive: "{{ autodeploy_repository_recursive }}"
         force: yes
         version: "{{ autodeploy_repository_branch }}"
       environment:
@@ -172,6 +173,14 @@
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 {% endfor %}
 
+{% for post_deployment_command in autodeploy_post_deployment_command_objects %}
+
+    - name: Post Deployment Command | {{ post_deployment_command.name }}
+      shell: "cd {{ autodeploy_docroot }} && {{ post_deployment_command.cmd }}"
+      environment:
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% endfor %}
+
 {% if autodeploy_restart_enabled %}
 
     - name: Restart Application
@@ -180,9 +189,15 @@
 
 {% if autodeploy_slack_notifications_enabled %}
 
-    - name: Get Instance ID
-      shell: ec2metadata | grep instance-id | cut -f 2 -d ' ' | tr -d -
-      register: instance_id
+    - name: Get Hostname
+      shell: hostname
+      register: hostname
+      tags:
+        - hostname
+
+    - name: Get Private IP
+      shell: ip route get 8.8.8.8 | awk '{print $NF; exit}'
+      register: private_ip
       tags:
         - hostname
 
@@ -191,7 +206,10 @@
         domain: "{{ slack_domain }}"
         channel: "{{ slack_channel }}"
         token: "{{ slack_token | mandatory }}"
-        msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ system_role }}-{{ instance_id.stdout }}-{{ project }}-{{ environment_tier }}"
+        username: "~~!DEPLOYMENT!~~"
+        icon_emoji: ":tada:"
+        msg: "Successfully Deployed Branch '{{ autodeploy_repository_branch }}' to {{ '{{' }} hostname.stdout {{ '}}' }} ip: {{ '{{' }} private_ip.stdout {{ '}}' }}"
+      ignore_errors: yes
 {% endif %}
 
 {% if autodeploy_newrelic_notifications_enabled and environment_tier == 'production' %}
