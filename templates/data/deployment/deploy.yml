@@ -57,8 +57,7 @@
 {% if autodeploy_wordpress_config_path_original %}
 
     - name: Configure Application | make copy of config file
-      file:
-        state: file
+      copy:
         remote_src: True
         src: "{{ autodeploy_wordpress_config_path_original }}"
         dest: "{{ autodeploy_wordpress_config_path }}"
