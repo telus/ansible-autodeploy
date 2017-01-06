@@ -103,3 +103,4 @@ Contributors
 * Aaron Pederson
 * Kinnan Kwok
 * Justin Scott
+* Steve Bond (POWERSHiFTER)
