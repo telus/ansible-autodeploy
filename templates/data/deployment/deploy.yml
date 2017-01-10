@@ -54,7 +54,7 @@
 {%   endfor %}
 {% endif %}
 {% if autodeploy_for_wordpress %}
-{% if autodeploy_wordpress_config_path_original %}
+{% if autodeploy_wordpress_config_path_original is defined and autodeploy_wordpress_config_path_original %}
 
     - name: Configure Application | make copy of config file
       copy:
