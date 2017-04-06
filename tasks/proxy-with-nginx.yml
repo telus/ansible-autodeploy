@@ -18,7 +18,7 @@
 - name: Upload Config | nginx | Automated Deployment
   template:
     src: etc/nginx/sites-available/deployment.conf
-    dest: /etc/nginx/sites-available/deployment.conf
+    dest: "/etc/nginx/sites-available/{{ autodeploy_name }}.conf"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0664
@@ -32,8 +32,8 @@
 - name: Enable Config | nginx | Automated Deployment
   file:
     state: link
-    src: /etc/nginx/sites-available/deployment.conf
-    dest: /etc/nginx/sites-enabled/deployment
+    src: "/etc/nginx/sites-available/{{ autodeploy_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ autodeploy_name }}"
   notify: Reload Service | nginx
   tags:
     - configuration

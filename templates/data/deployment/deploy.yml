@@ -12,6 +12,8 @@
         path: "{{ autodeploy_external_asset_storage_destination }}"
 
 {% endif %}
+
+{% if autodeploy_git_enabled %}
     - name: Fetch Application Code from git
       git:
         repo: "{{ autodeploy_repository_origin | mandatory }}"
@@ -24,6 +26,8 @@
         version: "{{ autodeploy_repository_branch }}"
       environment:
         PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+{% endif %}
+
 {% if autodeploy_external_asset_storage_enabled %}
     - name: External Asset Storage | Discard Assets from Repository
       file:

@@ -13,13 +13,13 @@
     - autodeploy
   with_items:
     - /var/www/.ssh
-    - /data/deployment
+    - "{{ autodeploy_path }}"
     - "{{ autodeploy_docroot }}"
 
 - name: Upload Deployment Private Key
   template:
     src: data/deployment/deploy.key
-    dest: /data/deployment/deploy.key
+    dest: "{{ autodeploy_path }}/deploy.key"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0400
@@ -32,7 +32,7 @@
 - name: Upload Deployment Public Key
   template:
     src: data/deployment/deploy.pub
-    dest: /data/deployment/deploy.pub
+    dest: "{{ autodeploy_path }}/deploy.pub"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0444
@@ -45,7 +45,7 @@
 - name: Upload reboot deployment script
   template:
     src: data/deployment/update-app-code.sh
-    dest: /data/deployment/update-app-code.sh
+    dest: "{{ autodeploy_path }}/update-app-code.sh"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0775
@@ -58,7 +58,7 @@
   cron:
     name: Invoke autodeploy at reboot
     special_time: reboot
-    job: /data/deployment/update-app-code.sh >> /data/log/update-app-code.log
+    job: "{{ autodeploy_path }}/update-app-code.sh >> /data/log/update-app-code.log"
   when: autodeploy_deployment_on_reboot
 
 - name: Get Instance ID
@@ -71,7 +71,7 @@
 - name: Setup Automated Deployment | Playbook
   template:
     src: data/deployment/deploy.yml
-    dest: /data/deployment/deploy.yml
+    dest: "{{ autodeploy_path }}/deploy.yml"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0444
@@ -85,7 +85,7 @@
 - name: Setup Automated Deployment | Hosts
   template:
     src: data/deployment/hosts
-    dest: /data/deployment/hosts
+    dest: "{{ autodeploy_path }}/hosts"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0444

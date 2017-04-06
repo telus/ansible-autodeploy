@@ -19,7 +19,7 @@
 - name: Setup Automated Deployment | Listener
   template:
     src: "data/deployment/listener.js"
-    dest: "/data/deployment/listener.js"
+    dest: "{{ autodeploy_path }}/listener.js"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0460
@@ -32,7 +32,7 @@
 - name: Setup Automated Deployment | package.json
   template:
     src: "data/deployment/package.json"
-    dest: "/data/deployment/package.json"
+    dest: "{{ autodeploy_path }}/package.json"
     owner: "{{ autodeploy_user }}"
     group: "{{ autodeploy_group }}"
     mode: 0460
@@ -45,7 +45,7 @@
 - name: Update Dependencies | npm
   npm:
     state: latest
-    path: /data/deployment
+    path: "{{ autodeploy_path }}"
   tags:
     - autodeploy
 
