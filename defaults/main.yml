@@ -4,7 +4,10 @@ autodeploy_group: www-data
 
 autodeploy_runtime_root: "{{ runtime_root | default('/var/run') }}/autodeploy"
 autodeploy_pidfile_path: "{{ autodeploy_runtime_root }}/listener.pid"
-autodeploy_listener_docroot: /data/deployment/listener
+autodeploy_install_directory: /data
+autodeploy_install_folder: deployment
+autodeploy_path: "{{ autodeploy_install_directory }}/{{ autodeploy_install_folder }}"
+autodeploy_listener_docroot: "{{ autodeploy_path }}/listener"
 autodeploy_restart_enabled: no
 
 autodeploy_listener: php
@@ -40,7 +43,7 @@ autodeploy_git_enabled: yes
 autodeploy_repository_origin: ''
 autodeploy_repository_branch: "{{ environment_tier }}"
 autodeploy_docroot: /data/www/docroot
-autodeploy_key: /data/deployment/deploy.key
+autodeploy_key: "{{ autodeploy_path }}/deploy.key"
 autodeploy_repository_recursive: yes
 
 # database

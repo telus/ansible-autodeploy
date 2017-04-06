@@ -3,7 +3,7 @@ branch_whitelist:
 - {{ autodeploy_repository_branch }}
 
 commands:
-- "ansible-playbook /data/deployment/deploy.yml"
+- "ansible-playbook {{ autodeploy_path }}/deploy.yml"
 
 environment:
   WORLD: Earth
