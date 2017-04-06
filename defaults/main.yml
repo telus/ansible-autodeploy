@@ -80,7 +80,7 @@ autodeploy_for_node: no
 autodeploy_for_bower: no
 autodeploy_for_ruby: no
 
-autodeploy_initial_deployment: "{% if autodeploy_inital_deployment is defined %}{{ autodeploy_inital_deployment }}{% else %}no{% endif %}"
+autodeploy_initial_deployment: "no"
 autodeploy_deployment_on_reboot: no
 
 # keys
