@@ -1,11 +1,13 @@
 ---
+autodeploy_name: deployment
+
 autodeploy_user: www-data
 autodeploy_group: www-data
 
 autodeploy_runtime_root: "{{ runtime_root | default('/var/run') }}/autodeploy"
 autodeploy_pidfile_path: "{{ autodeploy_runtime_root }}/listener.pid"
 autodeploy_install_directory: /data
-autodeploy_install_folder: deployment
+autodeploy_install_folder: "{{ autodeploy_name }}"
 autodeploy_path: "{{ autodeploy_install_directory }}/{{ autodeploy_install_folder }}"
 autodeploy_listener_docroot: "{{ autodeploy_path }}/listener"
 autodeploy_restart_enabled: no
