@@ -31,6 +31,7 @@ dependencies:
     upstart_exec_path: "/usr/bin/node {{ autodeploy_path }}/listener.js"
     when: autodeploy_listener == 'node'
   - role: telusdigital.php
+    php_version: "{{ autodeploy_php_version }}"
     when: autodeploy_listener == 'php'
   - role: telusdigital.php7
     when: autodeploy_listener == 'php7'
