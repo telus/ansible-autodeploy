@@ -1,5 +1,5 @@
 check process autodeploy with pidfile {{ autodeploy_pidfile_path }}
-  start program "/usr/bin/node /data/deployment/listener.js"
+  start program "/usr/bin/node {{ autodeploy_path }}/listener.js"
     as uid {{ autodeploy_user }} and gid {{ autodeploy_group }}
   stop program "/bin/kill `/bin/cat {{ autodeploy_pidfile_path }}`"
   if 5 restarts within 5 cycles then timeout

@@ -1,6 +1,6 @@
 ---
 - name: Invoke autodeploy
-  command: curl --request POST localhost:81
+  command: "curl --request POST localhost:{{ autodeploy_listener_port }}"
   when: autodeploy_initial_deployment | bool
   register: out
   notify: Invoke autodeploy | output

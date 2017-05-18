@@ -2,7 +2,7 @@
 - name: Upload Config Fragments | haproxy | deployment
   template:
     src: etc/haproxy/fragments.d/81-deployment
-    dest: /etc/haproxy/fragments.d/81-deployment
+    dest: "/etc/haproxy/fragments.d/{{ autodeploy_listener_port }}-deployment"
   notify: Reload Service | haproxy
   tags:
     - configuration

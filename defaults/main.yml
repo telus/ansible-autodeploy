@@ -1,10 +1,15 @@
 ---
+autodeploy_name: deployment
+
 autodeploy_user: www-data
 autodeploy_group: www-data
 
 autodeploy_runtime_root: "{{ runtime_root | default('/var/run') }}/autodeploy"
 autodeploy_pidfile_path: "{{ autodeploy_runtime_root }}/listener.pid"
-autodeploy_listener_docroot: /data/deployment/listener
+autodeploy_install_directory: /data
+autodeploy_install_folder: "{{ autodeploy_name }}"
+autodeploy_path: "{{ autodeploy_install_directory }}/{{ autodeploy_install_folder }}"
+autodeploy_listener_docroot: "{{ autodeploy_path }}/listener"
 autodeploy_restart_enabled: no
 
 autodeploy_listener: php
@@ -36,10 +41,11 @@ autodeploy_external_asset_storage_source: /mnt/s3/assets
 autodeploy_external_asset_storage_destination: /data/www/docroot/wp-content/uploads
 
 # version control
+autodeploy_git_enabled: yes
 autodeploy_repository_origin: ''
 autodeploy_repository_branch: "{{ environment_tier }}"
 autodeploy_docroot: /data/www/docroot
-autodeploy_key: /data/deployment/deploy.key
+autodeploy_key: "{{ autodeploy_path }}/deploy.key"
 autodeploy_repository_recursive: yes
 
 # database
@@ -74,7 +80,7 @@ autodeploy_for_node: no
 autodeploy_for_bower: no
 autodeploy_for_ruby: no
 
-autodeploy_initial_deployment: "{% if autodeploy_inital_deployment is defined %}{{ autodeploy_inital_deployment }}{% else %}no{% endif %}"
+autodeploy_initial_deployment: no
 autodeploy_deployment_on_reboot: no
 
 # keys
