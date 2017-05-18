@@ -1,10 +1,9 @@
 ---
 galaxy_info:
   author: "Chris Olstrom"
-  categories:
-    - development
   company: "TELUS digital"
   description: "Simple deployment tool with hooks"
+  issue_tracker_url: 'https://github.com/telusdigital/ansible-autodeploy/issues'
   license: MIT
   min_ansible_version: 1.6
   platforms:
@@ -14,6 +13,9 @@ galaxy_info:
         - precise
         - trusty
         - utopic
+  galaxy_tags:
+    - development
+
 dependencies:
   - role: telusdigital.slack
     slack_dry_run: yes
