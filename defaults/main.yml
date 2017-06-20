@@ -42,7 +42,8 @@ autodeploy_external_asset_storage_destination: /data/www/docroot/wp-content/uplo
 
 # version control
 autodeploy_git_enabled: yes
-autodeploy_repository_origin: ''
+autodeploy_git_organization: telusdigital
+autodeploy_repository_origin: "git@github.com:{{ autodeploy_git_organization }}/{{ project }}.git"
 autodeploy_repository_branch: "{{ environment_tier }}"
 autodeploy_docroot: /data/www/docroot
 autodeploy_key: "{{ autodeploy_path }}/deploy.key"
