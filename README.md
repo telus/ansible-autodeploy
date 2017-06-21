@@ -43,6 +43,8 @@ Tunables
 * `autodeploy_external_asset_storage_destination` (string) - The path to write out external assets.
 
  #### version control
+* `autodeploy_git_enabled` (boolean) - Using a git repo?
+* `autodeploy_git_organization` (string) - Your git organization name.
 * `autodeploy_repository_origin` (string) - The repository origin. Mandatory.
 * `autodeploy_repository_branch`(string) - The repository branch.
 * `autodeploy_docroot` (string) - The path to deploy into.
