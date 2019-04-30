@@ -17,22 +17,22 @@ galaxy_info:
     - development
 
 dependencies:
-  - role: telusdigital.slack
+  - src: telusdigital.slack
     slack_dry_run: yes
     when: autodeploy_slack_notifications_enabled
-  - role: telusdigital.postgresql
+  - src: telusdigital.postgresql
     postgresql_client: yes
     when: "autodeploy_database_engine == 'postgres' and autodeploy_database_bundled"
-  - role: telusdigital.mariadb
+  - src: telusdigital.mariadb
     mariadb_client: yes
     when: "autodeploy_database_engine == 'mysql-compatible' and autodeploy_database_bundled"
-  - role: telusdigital.nodejs
+  - src: telusdigital.nodejs
     when: autodeploy_listener == 'node'
-  - role: telusdigital.upstart
+  - src: telusdigital.upstart
     upstart_name: autodeploy
     upstart_exec_path: "/usr/bin/node {{ autodeploy_path }}/listener.js"
     when: autodeploy_listener == 'node'
-  - role: telusdigital.php
+  - src: telusdigital.php
     when: autodeploy_listener == 'php'
-  - role: telusdigital.php7
+  - src: telusdigital.php7
     when: autodeploy_listener == 'php7'
